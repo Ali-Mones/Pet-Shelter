@@ -1,0 +1,43 @@
+<form [formGroup]="registerForm"
+    style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: #fafafa;"
+    (ngSubmit)="onRegister()">
+    <h1>Create New Account</h1>
+
+    <mat-form-field>
+        <mat-label>Select What Describes You Best</mat-label>
+        <mat-select>
+            <mat-option value="adpoter">Adopter</mat-option>
+            <mat-option value="staff">Shelter Staff Member</mat-option>
+            <mat-option value="manager">Shelter Manager</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Phone Number</mat-label>
+        <input matInput type="text" formControlName="phoneNumber">
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+        <mat-error *ngIf="registerForm.controls['password'].hasError('weakPassword')">Weak password</mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" formControlName="confirmPassword">
+        <mat-error *ngIf="!registerForm.controls['confirmPassword'].valid">Password must match</mat-error>
+    </mat-form-field>
+
+    <button [disabled]="registerForm.invalid" mat-raised-button color="primary" type="submit">Register</button>
+</form>

@@ -1,0 +1,9 @@
+mat-form-field {
+    width: 300px;
+    box-sizing: border-box;
+}
+
+button {
+    min-width: 100px;
+    margin-bottom: 10px;
+}
