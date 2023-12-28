@@ -1,0 +1,28 @@
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #fafafa; min-height: 50vh; padding-top: 100px;">
+    <h1>Manage Pets</h1>
+
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let pet of pets" mat-card-xl-image>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{ pet.name }}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{ pet.species }} - {{ pet.breed }}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-edit-pet
+                (deletePet)="handleDeletePet($event)"
+                (petChange)="handlePetChange($event)"
+                (documentsChange)="handleDocumentsChange($event)"
+                [pet]="pet"
+                [shelters]="shelters"
+            ></app-edit-pet>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <br>
+
+    <button mat-raised-button color="primary" (click)="registerPet()">Register Pet</button>
+
+</div>

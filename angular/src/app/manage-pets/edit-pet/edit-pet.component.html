@@ -1,0 +1,80 @@
+<form [formGroup]="form" (ngSubmit)="handleEdits()" style="display: flex; flex-direction: column;">
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Shelter</mat-label>
+        <mat-select formControlName="shelterId">
+            <mat-option *ngFor="let shelter of shelters" [value]="shelter.id">{{ shelter.name }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name">
+        <mat-error *ngIf="form.controls['name'].hasError('maxlength')">Name too long</mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Species</mat-label>
+        <input matInput type="text" formControlName="species">
+        <mat-error *ngIf="form.controls['species'].hasError('maxlength')">Species too long</mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Breed</mat-label>
+        <input matInput type="text" formControlName="breed">
+        <mat-error *ngIf="form.controls['breed'].hasError('maxlength')">Breed too long</mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Age</mat-label>
+        <input matInput type="number" formControlName="age">
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender">
+            <mat-option value="MALE">
+                Male
+            </mat-option>
+            <mat-option value="FEMALE">
+                Female
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Health Status</mat-label>
+        <textarea matInput formControlName="healthStatus"></textarea>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Behaviour</mat-label>
+        <input matInput type="text" formControlName="behaviour">
+    </mat-form-field>
+
+    <mat-checkbox formControlName="houseTraining" color="primary">House Trained</mat-checkbox>
+    <mat-checkbox formControlName="spayedNeutered" color="primary">Spayed / Neutered</mat-checkbox>
+
+    <br>
+
+    <mat-expansion-panel style="margin-bottom: 10px;" hideToggle *ngFor="let document of pet.documents" mat-card-l-image>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ document.name }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <button mat-raised-button (click)="$event.preventDefault(); handleOpenDocument(document)" color="primary">Open Document</button>
+        <br>
+        <button mat-raised-button (click)="handleDeleteDocument(document.documentId)" color="warn">Delete Document!</button>
+    </mat-expansion-panel>
+    <button type="button" mat-raised-button (click)="fileInput.click()">Add Document</button>
+    <input hidden (change)="handleAddDocument($event);" (click)="fileInput.value = ''" #fileInput multiple type="file">
+
+    <button mat-raised-button color="primary" (click)="$event.stopPropagation()" type="submit" [disabled]="form.invalid">Save Edits</button>
+    <button mat-raised-button (click)="this.deletePet.emit(this.form.value)" color="warn">Delete Pet Record</button>
+</form>

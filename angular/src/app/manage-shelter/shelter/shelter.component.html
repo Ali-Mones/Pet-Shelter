@@ -1,0 +1,44 @@
+<form (ngSubmit)="shelterChange.emit(this.form.value)" [formGroup]="form" style="display: flex; flex-direction: column;">
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Shelter Name</mat-label>
+        <input matInput type="text" formControlName="name">
+        <mat-error *ngIf="form.controls['name'].hasError('maxlength')">Name too long</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Shelter Location</mat-label>
+        <input matInput type="text" formControlName="location">
+        <mat-error *ngIf="form.controls['location'].hasError('maxlength')">Location too long</mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Shelter Phone Number</mat-label>
+        <input matInput type="text" formControlName="phone">
+        <mat-error *ngIf="form.controls['phone'].hasError('pattern')">Invalid Phone number</mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="primary" appearance="fill">
+        <mat-label>Shelter Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        <br>
+        <mat-error *ngIf="form.controls['email'].hasError('email')">Invalid email</mat-error>
+        <mat-error *ngIf="form.controls['email'].hasError('maxlength')">Email too long</mat-error>
+    </mat-form-field>
+
+    <mat-expansion-panel hideToggle *ngFor="let s of shelter.staff" mat-card-l-image>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ s.name }}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{ s.role }}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <button mat-raised-button (click)="$event.stopPropagation(); fireStaff.emit(s)" color="warn" style="align-self: flex-end;">Fire!</button>
+    </mat-expansion-panel>
+
+    <br>
+    
+    <button mat-raised-button color="primary" (click)="$event.stopPropagation()" type="submit" [disabled]="form.invalid">Save Edits</button>
+    <button mat-raised-button color="warn" (click)="deleteShelter.emit(form.value);">Delete Shelter</button>
+</form>
