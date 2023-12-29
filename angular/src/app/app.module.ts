@@ -18,9 +18,10 @@ import { PetDetailsComponent } from './pet-details/pet-details.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FilterComponent } from './filter/filter.component';
 import { ManageApplicationsComponent } from './manage-applications/manage-applications.component';
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
-import { ShelterManagementApiService } from './shelter-management-api.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ShelterManagementApiService } from './services/shelter-management-api.service';
 import { AdoptionApplicationComponent } from './adoption-application/adoption-application.component';
+import { PetManagementApiService } from './services/pet-management-api.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { AdoptionApplicationComponent } from './adoption-application/adoption-ap
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ { provide: MAT_DIALOG_DATA, useValue: {} }, HttpClient, ShelterManagementApiService],
+  providers: [ { provide: MAT_DIALOG_DATA, useValue: {} }, HttpClient, ShelterManagementApiService, PetManagementApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

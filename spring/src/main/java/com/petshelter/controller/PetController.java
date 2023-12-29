@@ -47,8 +47,8 @@ public class PetController {
     }
 
     @GetMapping("/filterPets")
-    public List<Pet> filterPets (@RequestBody FilterRequest filterRequest){
-        return petService.filterPets(filterRequest);
+    public List<Pet> filterPets (@RequestBody FilterRequest filterRequest, @RequestParam int pageSize, @RequestParam int pageIndex){
+        return petService.filterPets(filterRequest, pageSize, pageIndex);
     }
 
     @GetMapping("/getFilterAbleData")
@@ -57,7 +57,7 @@ public class PetController {
     }
 
     @PostMapping("/saveDocument")
-    public long saveDocument(@RequestBody PetDocument petDocument){
+    public long saveDocument(@RequestBody MultipartFile petDocument){
         return petService.saveDocument(petDocument);
     }
 

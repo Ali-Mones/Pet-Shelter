@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -44,15 +45,15 @@ public class PetService {
         logger.info("In deletePet method of pet Service");
         petRepo.deletePetById(petId);
     }
-    public List<Pet> filterPets(FilterRequest filterRequest) {
-        return petRepo.filterPets(filterRequest);
+    public List<Pet> filterPets(FilterRequest filterRequest, int pageSize, int pageIndex) {
+        return petRepo.filterPets(filterRequest, pageSize, pageIndex);
     }
 
     public FilterRequest getFilterAbleData(){
         return petRepo.getFilterAbleData();
     }
 
-    public long saveDocument(PetDocument document){
+    public long saveDocument(MultipartFile document){
         return petDocumentRepo.saveDocument(document);
     }
 

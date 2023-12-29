@@ -4,6 +4,7 @@ import { Gender } from '../models/Gender';
 import { Pet } from '../models/Pet';
 import { PetDocument } from '../models/PetDocument';
 import { Shelter } from '../models/Shelter';
+import { PetManagementApiService } from '../services/pet-management-api.service';
 
 @Component({
   selector: 'app-edit-pet',
@@ -12,7 +13,7 @@ import { Shelter } from '../models/Shelter';
 })
 export class EditPetComponent implements OnInit {
 
-  constructor() { }
+  constructor(private api: PetManagementApiService) { }
 
   @Input() pet!: Pet;
   @Input() shelters!: Shelter[];
@@ -37,6 +38,7 @@ export class EditPetComponent implements OnInit {
       description: new FormControl<string>(this.pet.description, { validators: [Validators.required, Validators.maxLength(255)] }),
       houseTraining: new FormControl<boolean>(this.pet.houseTraining),
       spayedNeutered: new FormControl<boolean>(this.pet.spayedNeutered),
+      added: new FormControl<boolean>(this.pet.added!)
     });
   }
 
@@ -53,18 +55,28 @@ export class EditPetComponent implements OnInit {
     console.log(e.target.files);
 
     for (let file of e.target.files) {
-      this.pet.documents!.push({
-        documentId: this.pet.documents!.length > 0 ? Math.max(...this.pet.documents!.map(doc => doc.documentId)) + 1 : 0,
+
+      const document = {
+        id: this.pet.documents!.length > 0 ? Math.max(...this.pet.documents!.map(doc => doc.id)) + 1 : 0,
         petId: this.pet.id,
         name: file.name,
         type: "image/jpeg",
         file: file
+      };
+
+      this.pet.documents!.push(document);
+
+      this.api.saveDocument(document).subscribe((docId) => {
+        if (docId > 0)
+          this.pet.documents!.find((doc: PetDocument) => doc.file == file)!.id = docId;
+        else
+          this.pet.documents!.pop();
       });
     }
   }
 
   handleDeleteDocument(documentId: number): void {
-    this.pet.documents = this.pet.documents!.filter((document: PetDocument) => documentId != document.documentId);
+    this.pet.documents = this.pet.documents!.filter((document: PetDocument) => documentId != document.id);
   }
 
   handleOpenDocument(doc: PetDocument) {

@@ -85,7 +85,7 @@
         </mat-expansion-panel-header>
         <button mat-raised-button (click)="$event.preventDefault(); handleOpenDocument(document)" color="primary">Open Document</button>
         <br>
-        <button mat-raised-button (click)="handleDeleteDocument(document.documentId)" color="warn">Delete Document!</button>
+        <button mat-raised-button (click)="handleDeleteDocument(document.id)" color="warn">Delete Document!</button>
     </mat-expansion-panel>
     <button type="button" mat-raised-button (click)="fileInput.click()">Add Document</button>
     <input hidden (change)="handleAddDocument($event);" (click)="fileInput.value = ''" #fileInput multiple type="file">

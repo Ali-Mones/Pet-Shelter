@@ -1,5 +1,5 @@
 export type PetDocument = {
-    documentId: number,
+    id: number,
     petId: number,
     name: string,
     type: string,

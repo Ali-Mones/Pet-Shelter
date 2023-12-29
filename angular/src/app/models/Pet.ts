@@ -14,5 +14,6 @@ export type Pet = {
     description: string,
     houseTraining: boolean,
     spayedNeutered: boolean,
-    documents?: PetDocument[]
+    documents?: PetDocument[],
+    added?: boolean
 }

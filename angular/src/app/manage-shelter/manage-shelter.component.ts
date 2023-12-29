@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Shelter } from '../models/Shelter';
 import { Staff } from '../models/Staff';
-import { ShelterManagementApiService } from '../shelter-management-api.service';
+import { ShelterManagementApiService } from '../services/shelter-management-api.service';
 
 @Component({
   selector: 'app-manage-shelter',

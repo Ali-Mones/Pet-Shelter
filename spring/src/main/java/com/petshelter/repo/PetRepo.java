@@ -82,7 +82,7 @@ public class PetRepo {
         return !pets.isEmpty() ? pets.getFirst():null;
     }
 
-    public List<Pet> filterPets(FilterRequest filterRequest){
+    public List<Pet> filterPets(FilterRequest filterRequest, int pageSize, int pageIndex){
         StringBuilder sql = new StringBuilder("SELECT pet_id,pet.shelter_id, pet_name, pet_species, pet_breed, pet_age, pet_gender, pet_health_status" +
                 ", pet_behaviour, pet_description, pet_house_training, pet_spayed_neutered FROM pet");
 
@@ -107,6 +107,8 @@ public class PetRepo {
         }
 
         sql.append("pet.pet_age BETWEEN ").append(filterRequest.getMinAge()).append(" AND ").append(filterRequest.getMaxAge());
+
+        sql.append(" LIMIT ").append(pageSize).append(" OFFSET ").append(pageSize * pageIndex);
 
         return jdbcTemplate.query(sql.toString(),getPetRowMapper());
     }

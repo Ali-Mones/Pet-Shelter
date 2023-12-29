@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Shelter } from '../models/Shelter';
 import { Staff } from '../models/Staff';
-import { ShelterManagementApiService } from '../shelter-management-api.service';
+import { ShelterManagementApiService } from '../services/shelter-management-api.service';
 
 @Component({
   selector: 'app-shelter',

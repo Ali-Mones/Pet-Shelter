@@ -39,7 +39,4 @@ export class PetProfileComponent implements OnInit {
       data: pet
     });
   }
-
-  openDialog() {
-  }
 }

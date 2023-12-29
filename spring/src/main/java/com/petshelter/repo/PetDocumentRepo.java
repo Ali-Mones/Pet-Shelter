@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Blob;
 import java.sql.PreparedStatement;
@@ -21,20 +22,20 @@ public class PetDocumentRepo {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public long saveDocument(PetDocument document){
+    public long saveDocument(MultipartFile document){
 
-        String sql = "INSERT INTO pet_document (pet_id,documentName,document_type,document) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO pet_document (pet_id,document_name,document_type,document) VALUES (?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps =  connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, document.getPetId());
-            ps.setString(2,document.getDocumentName());
-            ps.setString(3,document.getDocumentType());
-            ps.setBlob(4, document.getDocument());
-            return ps;
-        },keyHolder);
+//        jdbcTemplate.update(connection -> {
+//            PreparedStatement ps =  connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//            ps.setLong(1, document.getPetId());
+//            ps.setString(2,document.getName());
+//            ps.setString(3,document.getType());
+//            ps.setBlob(4, document.getFile());
+//            return ps;
+//        },keyHolder);
 
         return keyHolder.getKey() != null ? keyHolder.getKey().longValue() : -1;
     }
