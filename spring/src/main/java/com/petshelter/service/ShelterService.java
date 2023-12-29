@@ -22,10 +22,9 @@ public class ShelterService {
                 shelter.getPhone().length() > 11 || shelter.getEmail().length() > 45;
     }
 
-    public boolean addShelter(Shelter shelter) {
-        if (attributesOutOfBounds(shelter)) return false;
-        shelterRepo.save(shelter);
-        return true;
+    public long addShelter(Shelter shelter) {
+        if (attributesOutOfBounds(shelter)) return -1;
+        return shelterRepo.save(shelter);
     }
 
     public Shelter getShelter(long id) {

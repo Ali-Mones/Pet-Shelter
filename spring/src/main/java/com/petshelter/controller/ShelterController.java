@@ -20,7 +20,7 @@ public class ShelterController {
     }
 
     @PostMapping("/addShelter")
-    public boolean addShelter(@RequestBody Shelter shelter) {
+    public long addShelter(@RequestBody Shelter shelter) {
         return shelterService.addShelter(shelter);
     }
 

@@ -22,9 +22,10 @@ public class ShelterRepo {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void save(Shelter shelter) {
+    public long save(Shelter shelter) {
         String sql = "INSERT INTO shelter (shelter_name, shelter_location, shelter_phone, shelter_email) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, shelter.getName(), shelter.getLocation(), shelter.getPhone(), shelter.getEmail());
+        return jdbcTemplate.query("SELECT LAST_INSERT_ID()", rs -> rs.next() ? rs.getLong(1) : null);
     }
 
     public boolean notExists(long id) {
