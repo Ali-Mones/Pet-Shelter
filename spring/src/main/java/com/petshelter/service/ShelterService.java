@@ -5,6 +5,8 @@ import com.petshelter.repo.ShelterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShelterService {
     private final ShelterRepo shelterRepo;
@@ -20,5 +22,15 @@ public class ShelterService {
         
         shelterRepo.save(shelter);
         return true;
+    }
+
+    public Shelter getShelter(long id) {
+        if (!shelterRepo.existsById(id)) return null;
+        return shelterRepo.findById(id);
+    }
+
+    public List<Shelter> getAllShelters() {
+        if (shelterRepo.isEmpty()) return null;
+        return shelterRepo.findAll();
     }
 }
