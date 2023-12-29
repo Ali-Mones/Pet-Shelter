@@ -4,6 +4,13 @@ mat-form-field {
     box-sizing: border-box;
 }
 
+input{
+    height: 15px;
+}
+textarea{
+    height: 15px;
+}
+
 button {
     min-width: 100px;
     margin-bottom: 10px;
