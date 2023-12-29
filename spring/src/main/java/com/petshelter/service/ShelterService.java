@@ -32,9 +32,9 @@ public class ShelterService {
         return shelterRepo.findById(id);
     }
 
-    public List<Shelter> getAllShelters() {
+    public List<Shelter> getAllShelters(long staffId) {
         if (shelterRepo.isEmpty()) return null;
-        return shelterRepo.findAll();
+        return shelterRepo.findAll(staffId);
     }
 
     public boolean updateShelter(long id, Shelter shelterUpdates) {
