@@ -32,4 +32,14 @@ public class ShelterController {
     public List<Shelter> getAllShelters() {
         return shelterService.getAllShelters();
     }
+
+    @PutMapping("/updateShelter/{id}")
+    public boolean updateShelter(@PathVariable("id") long id, @RequestBody Shelter shelterUpdates) {
+        return shelterService.updateShelter(id, shelterUpdates);
+    }
+
+    @DeleteMapping("/deleteShelter/{id}")
+    public boolean deleteShelter(@PathVariable("id") long id) {
+        return shelterService.deleteMapping(id);
+    }
 }

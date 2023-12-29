@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,10 +26,10 @@ public class ShelterRepo {
         jdbcTemplate.update(sql, shelter.getName(), shelter.getLocation(), shelter.getPhone(), shelter.getEmail());
     }
 
-    public boolean existsById(long id) {
+    public boolean notExists(long id) {
         String sql = "SELECT COUNT(*) FROM shelter WHERE shelter_id = ?";
         ResultSetExtractor<Boolean> resultSetExtractor = rs -> rs.next() && rs.getInt(1) > 0;
-        return Boolean.TRUE.equals(jdbcTemplate.query(sql, resultSetExtractor, id));
+        return Boolean.FALSE.equals(jdbcTemplate.query(sql, resultSetExtractor, id));
     }
 
     public Shelter findById(long id) {
@@ -61,5 +62,35 @@ public class ShelterRepo {
                 .email(rs.getString(5))
                 .build();
         return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public void update(long id, Shelter shelterUpdates) {
+        StringBuilder sql = new StringBuilder("UPDATE shelter SET ");
+        List<Object> updates = new ArrayList<>();
+        if (shelterUpdates.getName() != null) {
+            sql.append("shelter_name = ?, ");
+            updates.add(shelterUpdates.getName());
+        }
+        if (shelterUpdates.getLocation() != null) {
+            sql.append("shelter_location = ?, ");
+            updates.add(shelterUpdates.getLocation());
+        }
+        if (shelterUpdates.getPhone() != null) {
+            sql.append("shelter_phone = ?, ");
+            updates.add(shelterUpdates.getPhone());
+        }
+        if (shelterUpdates.getEmail() != null) {
+            sql.append("shelter_email = ? ");
+            updates.add(shelterUpdates.getEmail());
+        }
+        sql.append("WHERE shelter_id = ?");
+        updates.add(id);
+        Object[] params = updates.toArray();
+        jdbcTemplate.update(sql.toString(), params);
+    }
+
+    public void delete(long id) {
+        String sql = "DELETE FROM shelter WHERE shelter_id = ?";
+        jdbcTemplate.update(sql, id);
     }
 }
