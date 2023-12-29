@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS `pet_shelter`.`PET` (
   `pet_health_status` VARCHAR(255) NULL,
   `pet_behaviour` VARCHAR(45) NULL,
   `pet_description` VARCHAR(255) NULL,
-  `pet_house_training` TINYINT NULL,
-  `pet_spayed_neutered` TINYINT NULL,
+  `pet_house_training` BOOLEAN NULL,
+  `pet_spayed_neutered` BOOLEAN NULL,
   PRIMARY KEY (`pet_id`),
   INDEX `shelter_od_idx` (`shelter_id` ASC) VISIBLE,
   CONSTRAINT `shelter_od`
@@ -92,7 +92,6 @@ CREATE TABLE IF NOT EXISTS `pet_shelter`.`PET_DOCUMENT` (
   `pet_id` BIGINT NULL,
   `document_type` VARCHAR(45) NULL,
   `document` MEDIUMBLOB NULL,
-  `PET_DOCUMENTcol` VARCHAR(45) NULL,
   PRIMARY KEY (`document_id`),
   CONSTRAINT `pet_id`
     FOREIGN KEY (`pet_id`)
