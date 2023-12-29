@@ -7,15 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Repository
@@ -29,16 +24,8 @@ public class ShelterRepo {
 
     public long save(Shelter shelter) {
         String sql = "INSERT INTO shelter (shelter_name, shelter_location, shelter_phone, shelter_email) VALUES (?, ?, ?, ?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(con -> {
-            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, shelter.getName());
-            ps.setString(2, shelter.getLocation());
-            ps.setString(3, shelter.getPhone());
-            ps.setString(4, shelter.getEmail());
-            return ps;
-        }, keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+        jdbcTemplate.update(sql, shelter.getName(), shelter.getLocation(), shelter.getPhone(), shelter.getEmail());
+        return jdbcTemplate.query("SELECT LAST_INSERT_ID()", rs -> rs.next() ? rs.getLong(1) : null);
     }
 
     public boolean notExists(long id) {
