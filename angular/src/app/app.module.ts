@@ -12,6 +12,8 @@ import { ManageShelterComponent } from './manage-shelter/manage-shelter.componen
 import { ShelterComponent } from './manage-shelter/shelter/shelter.component';
 import { ManagePetsComponent } from './manage-pets/manage-pets.component';
 import { EditPetComponent } from './manage-pets/edit-pet/edit-pet.component';
+import { PetProfileComponent } from './pet-profile/pet-profile.component';
+import { ViewPetsComponent } from './view-pets/view-pets.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { EditPetComponent } from './manage-pets/edit-pet/edit-pet.component';
     ManageShelterComponent,
     ShelterComponent,
     ManagePetsComponent,
-    EditPetComponent
+    EditPetComponent,
+    PetProfileComponent,
+    ViewPetsComponent
   ],
   imports: [
     BrowserModule,

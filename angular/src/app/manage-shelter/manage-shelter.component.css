@@ -7,3 +7,7 @@ button {
     min-width: 100px;
     margin-bottom: 10px;
 }
+
+mat-accordion {
+    max-width: 400px;
+}

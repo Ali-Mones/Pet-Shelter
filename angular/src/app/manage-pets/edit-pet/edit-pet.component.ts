@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Gender, Pet, PetDocument } from '../pet';
-import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Shelter } from 'src/app/manage-shelter/shelter/shelter';
 
 @Component({
@@ -65,7 +65,7 @@ export class EditPetComponent implements OnInit {
   }
 
   handleOpenDocument(doc: PetDocument) {
-    let anchor = document.createElement("a");
+    const anchor = document.createElement("a");
     anchor.href = URL.createObjectURL(doc.file);
     anchor.download = doc.name;
     anchor.click();
