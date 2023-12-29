@@ -23,6 +23,8 @@ public class ShelterService {
     }
 
     public long addShelter(Shelter shelter) {
+        // TODO: ADD STAFF_MEMBER_SHELTER TO TABLE
+
         if (attributesOutOfBounds(shelter)) return -1;
         return shelterRepo.save(shelter);
     }
@@ -53,4 +55,6 @@ public class ShelterService {
         if (shelterRepo.notExists(id)) return null;
         return shelterRepo.findShelterStaffMembersById(id);
     }
+
+    // TODO: ADD FIRE STAFF
 }

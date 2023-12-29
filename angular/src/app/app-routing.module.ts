@@ -14,8 +14,8 @@ const routes: Routes = [
   { path:'auth/register', component: RegisterComponent },
   { path:'manager/manage-shelters', component: ManageShelterComponent },
   { path:'staff/manage-pets', component: ManagePetsComponent },
-  { path: 'pet-profile', component: PetProfileComponent },
   { path: 'view-pets', component: ViewPetsComponent },
+  { path: 'pet-details', component: PetDetailsComponent },
   { path: 'pet-details', component: PetDetailsComponent },
 ];
 

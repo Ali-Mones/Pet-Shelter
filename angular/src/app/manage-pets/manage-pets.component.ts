@@ -47,12 +47,14 @@ export class ManagePetsComponent implements OnInit {
           documentId: 3,
           petId: 1,
           name: "Document 1.png",
+          type: "image/jpeg",
           file: new Blob()
         },
         {
           documentId: 4,
           petId: 1,
           name: "Document 2.png",
+          type: "image/jpeg",
           file: new Blob()
         }
       ]
@@ -75,12 +77,14 @@ export class ManagePetsComponent implements OnInit {
           documentId: 1,
           petId: 2,
           name: "Document 3",
+          type: "image/jpeg",
           file: new Blob()
         },
         {
           documentId: 2,
           petId: 2,
           name: "Document 4",
+          type: "image/jpeg",
           file: new Blob()
         }
       ]

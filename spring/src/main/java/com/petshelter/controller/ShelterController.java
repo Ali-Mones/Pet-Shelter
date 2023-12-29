@@ -29,8 +29,8 @@ public class ShelterController {
         return shelterService.getShelter(id);
     }
 
-    @GetMapping("/getAllShelters")
-    public List<Shelter> getAllShelters(long staffId) {
+    @GetMapping("/getAllShelters/{staffId}")
+    public List<Shelter> getAllShelters(@PathVariable("staffId") long staffId) {
         return shelterService.getAllShelters(staffId);
     }
 

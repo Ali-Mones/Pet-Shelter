@@ -57,6 +57,7 @@ export class EditPetComponent implements OnInit {
         documentId: this.pet.documents!.length > 0 ? Math.max(...this.pet.documents!.map(doc => doc.documentId)) + 1 : 0,
         petId: this.pet.id,
         name: file.name,
+        type: "image/jpeg",
         file: file
       });
     }

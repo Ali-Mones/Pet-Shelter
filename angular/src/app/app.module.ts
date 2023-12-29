@@ -20,6 +20,7 @@ import { FilterComponent } from './filter/filter.component';
 import { ManageApplicationsComponent } from './manage-applications/manage-applications.component';
 import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
 import { ShelterManagementApiService } from './shelter-management-api.service';
+import { AdoptionApplicationComponent } from './adoption-application/adoption-application.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ShelterManagementApiService } from './shelter-management-api.service';
     ViewPetsComponent,
     PetDetailsComponent,
     FilterComponent,
-    ManageApplicationsComponent
+    ManageApplicationsComponent,
+    AdoptionApplicationComponent,
   ],
   imports: [
     BrowserModule,
