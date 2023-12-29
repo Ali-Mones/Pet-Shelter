@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Pet, PetDocument } from './pet';
-import { Shelter } from '../manage-shelter/shelter/shelter';
+import { Shelter } from '../models/Shelter';
+import { Pet } from '../models/Pet';
+import { PetDocument } from '../models/PetDocument';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-manage-pets',
@@ -9,11 +11,6 @@ import { Shelter } from '../manage-shelter/shelter/shelter';
 })
 export class ManagePetsComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
   shelters: Shelter[] = [
     {
       id: 1,
@@ -21,24 +18,6 @@ export class ManagePetsComponent implements OnInit {
       location: "Location 1",
       phone: "12345678901",
       email: "shelter1@gmail.com",
-      staff: [
-        {
-          staffId: 1,
-          shelterId: 1,
-          name: "Staff 1",
-          role: "Role 1",
-          phone: "12345678901",
-          email: ""
-        },
-        {
-          staffId: 2,
-          shelterId: 1,
-          name: "Staff 2",
-          role: "Role 2",
-          phone: "12345678901",
-          email: ""
-        }
-      ]
     },
     {
       id: 2,
@@ -46,31 +25,12 @@ export class ManagePetsComponent implements OnInit {
       location: "Location 2",
       phone: "12345678901",
       email: "",
-      staff: [
-        {
-          staffId: 3,
-          shelterId: 2,
-          name: "Staff 3",
-          role: "Role 3",
-          phone: "12345678901",
-          email: ""
-        },
-        {
-          staffId: 4,
-          shelterId: 2,
-          name: "Staff 4",
-          role: "Role 4",
-          phone: "12345678901",
-          email: ""
-        }
-      ]
     }
-
   ]
 
   pets: Pet[] = [
     {
-      petId: 1,
+      id: 1,
       shelterId: 1,
       name: "Pet 1",
       species: "Cat",
@@ -98,7 +58,7 @@ export class ManagePetsComponent implements OnInit {
       ]
     },
     {
-      petId: 2,
+      id: 2,
       shelterId: 1,
       name: "Pet 2",
       species: "Dog",
@@ -127,9 +87,24 @@ export class ManagePetsComponent implements OnInit {
     }
   ]
 
+  pageSize = 1;
+
+  constructor() { }
+
+  ngOnInit(): void {
+    // get pets of my shelter
+    // get shelters under my management
+    this.pets = this.pets.filter((pet, index) => index < this.pageSize);
+  }
+
+  getPetCount() {
+    //TODO: get pet count of my shelter from backend
+    return this.pets.length;
+  }
+
   registerPet() {
     this.pets.push({
-      petId: this.pets.length == 0 ? 1 : Math.max(...this.pets.map(pet => pet.petId)) + 1,
+      id: this.pets.length == 0 ? 1 : Math.max(...this.pets.map(pet => pet.id)) + 1,
       shelterId: 1,
       name: "",
       species: "",
@@ -147,18 +122,22 @@ export class ManagePetsComponent implements OnInit {
 
   handlePetChange(pet: Pet) {
     console.log("change", pet);
-    let index = this.pets.findIndex(p => p.petId == pet.petId);
+    let index = this.pets.findIndex(p => p.id == pet.id);
     this.pets[index] = pet;
   }
 
   handleDeletePet(petId: number) {
-    let index = this.pets.findIndex(p => p.petId == petId);
+    let index = this.pets.findIndex(p => p.id == petId);
     this.pets.splice(index, 1);
   }
 
   handleDocumentsChange(documents: PetDocument[]) {
     console.log("change", documents);
-    let index = this.pets.findIndex(p => p.petId == documents[0].petId);
+    let index = this.pets.findIndex(p => p.id == documents[0].petId);
     this.pets[index].documents = documents;
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.pets = this.pets.filter((pet, index) => index >= event.pageIndex * event.pageSize && index < (event.pageIndex + 1) * event.pageSize);
   }
 }

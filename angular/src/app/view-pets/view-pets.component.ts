@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Pet } from '../manage-pets/pet';
+import { PageEvent } from '@angular/material/paginator';
+import { FilterComponent } from '../filter/filter.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Pet } from '../models/Pet';
+import { Filter } from '../models/Filter';
 
 @Component({
   selector: 'app-view-pets',
@@ -8,14 +12,9 @@ import { Pet } from '../manage-pets/pet';
 })
 export class ViewPetsComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
   pets: Pet[] = [
     {
-      petId: 1,
+      id: 1,
       shelterId: 1,
       name: "Pet 1",
       species: "Cat",
@@ -43,7 +42,7 @@ export class ViewPetsComponent implements OnInit {
       ]
     },
     {
-      petId: 2,
+      id: 2,
       shelterId: 1,
       name: "Pet 2",
       species: "Dog",
@@ -72,4 +71,59 @@ export class ViewPetsComponent implements OnInit {
     }
   ]
 
+  pageSize: number = 2;
+
+  viewPets: Pet[] = this.pets.filter((pet, index) => index < this.pageSize);
+
+  appliedFilter: Filter = {}
+
+  filterableData: Filter = {
+    species: ["Cat", "Dog"],
+    breeds: ["Siamese", "Shiba Inu"],
+    minAge: 0,
+    maxAge: 10,
+    shelterLocations: ["Toronto", "Mississauga"],
+  }
+
+  searchTimeout!: NodeJS.Timeout;
+
+  constructor(public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    // send request to backend to get pet count
+    // send request to backend to get pets for page with pageIndex = 0, page size = page size 
+  }
+
+  getPetCount() {
+    return 2;
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.viewPets = this.pets.filter((pet, index) => index >= event.pageIndex * event.pageSize && index < (event.pageIndex + 1) * event.pageSize);
+  }
+
+  handleViewFilter() {
+
+    // send request to backend to find filterable data
+
+    const dialogRef = this.dialog.open(FilterComponent, { data: this.filterableData });
+    dialogRef.afterClosed().subscribe(result => {
+      this.appliedFilter = result;
+      // send request to backend to filter
+    });
+  }
+
+  handleSearch(event: any) {
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
+    this.searchTimeout = setTimeout(() => {
+
+      console.log(event.target?.value)
+
+      // send request to backend to search
+
+    }, 500);
+  }
 }

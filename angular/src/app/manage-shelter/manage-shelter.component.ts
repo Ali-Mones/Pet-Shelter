@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Shelter } from './shelter/shelter';
-import { Staff } from './shelter/staff';
+import { Shelter } from '../models/Shelter';
+import { Staff } from '../models/Staff';
+import { ShelterManagementApiService } from '../shelter-management-api.service';
 
 @Component({
   selector: 'app-manage-shelter',
@@ -10,42 +10,37 @@ import { Staff } from './shelter/staff';
 })
 export class ManageShelterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private api: ShelterManagementApiService) { }
 
   ngOnInit(): void {
   }
 
-  shelters: Shelter[] = [
-    {
-      id: 1,
-      name: "Shelter 1",
-      location: "Location 1",
-      phone: "12345678901",
-      email: "shelter1@gmail.com",
-      staff: [
-        {
-          staffId: 1,
-          shelterId: 1,
-          name: "Staff 1",
-          role: "Role 1",
-          phone: "12345678901",
-          email: ""
-        },
-        {
-          staffId: 2,
-          shelterId: 1,
-          name: "Staff 2",
-          role: "Role 2",
-          phone: "12345678901",
-          email: ""
-        }
-      ]
-    }
-  ]
+  shelters: Shelter[] = []
 
   handleShelterChange(shelter: Shelter) {
-    let index = this.shelters.findIndex(s => s.id == shelter.id);
-    this.shelters[index] = shelter;
+    if (shelter.added) {
+      let index = this.shelters.findIndex(s => s.id == shelter.id);
+      this.shelters[index] = shelter;
+
+
+      const shelterInfo = {
+        id: shelter.id,
+        name: shelter.name,
+        location: shelter.location,
+        phone: shelter.phone,
+        email: shelter.email
+      }
+    } else {
+      // send request to backend
+      this.api.addShelter(shelter).subscribe(shelterId => {
+        if (shelterId == -1) {
+          alert("Failed to add shelter");
+          return;
+        } else {
+          document.location.reload();
+        }
+      });
+    }
   }
 
   handleDeleteShelter(shelter: Shelter) {
@@ -55,8 +50,8 @@ export class ManageShelterComponent implements OnInit {
 
   handleFireStaff(staff: Staff) {
     let shelterIndex = this.shelters.findIndex(s => s.id == staff.shelterId);
-    let staffIndex = this.shelters[shelterIndex].staff.findIndex(s => s.staffId == staff.staffId);
-    this.shelters[shelterIndex].staff.splice(staffIndex, 1);
+    let staffIndex = this.shelters[shelterIndex].staff!.findIndex(s => s.id == staff.id);
+    this.shelters[shelterIndex].staff!.splice(staffIndex, 1);
   }
 
   addShelter() {
@@ -66,7 +61,8 @@ export class ManageShelterComponent implements OnInit {
       location: "",
       phone: "",
       email: "",
-      staff: []
+      staff: [],
+      added: false
     });
   }
 }

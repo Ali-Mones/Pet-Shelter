@@ -1,4 +1,4 @@
-import { Staff } from "./staff"
+import { Staff } from "./Staff"
 
 export type Shelter = {
     id: number,
@@ -6,5 +6,6 @@ export type Shelter = {
     location: string,
     phone: string,
     email: string,
-    staff: Staff[]
+    staff?: Staff[],
+    added?: boolean
 }

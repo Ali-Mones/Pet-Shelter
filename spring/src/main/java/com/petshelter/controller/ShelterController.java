@@ -30,8 +30,8 @@ public class ShelterController {
     }
 
     @GetMapping("/getAllShelters")
-    public List<Shelter> getAllShelters() {
-        return shelterService.getAllShelters();
+    public List<Shelter> getAllShelters(long staffId) {
+        return shelterService.getAllShelters(staffId);
     }
 
     @PutMapping("/updateShelter/{id}")

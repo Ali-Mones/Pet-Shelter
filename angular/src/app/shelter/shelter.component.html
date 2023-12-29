@@ -39,6 +39,7 @@
 
     <br>
     
-    <button mat-raised-button color="primary" (click)="$event.stopPropagation()" type="submit" [disabled]="form.invalid">Save Edits</button>
+    <button *ngIf="!shelter.added" mat-raised-button color="primary" (click)="$event.stopPropagation()" type="submit" [disabled]="form.invalid">Add Shelter</button>
+    <button *ngIf="shelter.added" mat-raised-button color="primary" (click)="$event.stopPropagation()" type="submit" [disabled]="form.invalid">Save Edits</button>
     <button mat-raised-button color="warn" (click)="deleteShelter.emit(form.value);">Delete Shelter</button>
 </form>

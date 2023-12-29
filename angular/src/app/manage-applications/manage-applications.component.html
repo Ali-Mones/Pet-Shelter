@@ -1,0 +1,22 @@
+<!-- <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #fafafa; min-height: 50vh; padding-top: 100px;">
+    <h1>Manage Shelters</h1>
+    
+    <mat-accordion>
+        <mat-expansion-panel hideToggle *ngFor="let shelter of shelters" mat-card-xl-image>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Shelter
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{ shelter.name }}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-shelter [shelter]="shelter" (fireStaff)="handleFireStaff($event)" (deleteShelter)="handleDeleteShelter($event)" (shelterChange)="handleShelterChange($event);"></app-shelter>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <br>
+
+    <button (click)="addShelter()" mat-raised-button color="primary">Add Shelter</button>
+
+</div> -->

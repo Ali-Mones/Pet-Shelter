@@ -1,7 +1,8 @@
-export type Gender = "MALE" | "FEMALE";
+import { Gender } from "./Gender";
+import { PetDocument } from "./PetDocument";
 
 export type Pet = {
-    petId: number,
+    id: number,
     shelterId: number,
     name: string,
     species: string,
@@ -13,12 +14,5 @@ export type Pet = {
     description: string,
     houseTraining: boolean,
     spayedNeutered: boolean,
-    documents: PetDocument[]
-}
-
-export type PetDocument = {
-    documentId: number,
-    petId: number,
-    name: string,
-    file: Blob
+    documents?: PetDocument[]
 }

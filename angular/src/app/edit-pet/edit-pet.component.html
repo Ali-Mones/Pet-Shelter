@@ -56,9 +56,16 @@
         <mat-label>Behaviour</mat-label>
         <input matInput type="text" formControlName="behaviour">
     </mat-form-field>
-
-    <mat-checkbox formControlName="houseTraining" color="primary">House Trained</mat-checkbox>
-    <mat-checkbox formControlName="spayedNeutered" color="primary">Spayed / Neutered</mat-checkbox>
+    <mat-selection-list>
+        <mat-list-option color="primary" formControlName="houseTraining">
+            House Training
+        </mat-list-option>
+        <mat-list-option color="primary" formControlName="spayedNeutered">
+            {{ form.controls['gender'].value == "MALE" ? "Neutered" : "Spayed" }}
+        </mat-list-option>
+        <!-- <mat-checkbox formControlName="houseTraining" color="primary">House Trained</mat-checkbox> -->
+        <!-- <mat-checkbox formControlName="spayedNeutered" color="primary">Spayed / Neutered</mat-checkbox> -->
+    </mat-selection-list>
 
     <br>
 

@@ -1,3 +1,12 @@
-<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 100px; padding-top: 50px; padding-bottom: 50px;">
-    <app-pet-profile *ngFor="let pet of pets" [pet]="pet"></app-pet-profile>
+<div style="display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-top: 50px; padding-bottom: 50px;">
+    <mat-form-field style="width: 600px;" appearance="outline">
+        <mat-label>Search By Name</mat-label>
+        <input matInput (input)="handleSearch($event)" type="text">
+    </mat-form-field>
+
+    <div style="display: flex; flex-direction: row; width: 600px; padding-bottom: 30px;">
+        <button style="margin-left: 0px;" (click)="handleViewFilter()" mat-button>Filter</button>
+        <mat-paginator style="margin-right: 0px; margin-left: auto;" [length]="getPetCount()" (page)="handlePageEvent($event)" [pageSize]="pageSize"></mat-paginator>
+    </div>
+    <app-pet-profile style="padding-bottom: 100px;" *ngFor="let pet of viewPets" [pet]="pet"></app-pet-profile>
 </div>

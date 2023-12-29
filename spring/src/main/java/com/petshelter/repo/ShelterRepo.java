@@ -2,6 +2,7 @@ package com.petshelter.repo;
 
 import com.petshelter.model.Shelter;
 import com.petshelter.model.StaffMember;
+import com.petshelter.model.enums.Role;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,8 +55,14 @@ public class ShelterRepo {
         return Boolean.TRUE.equals(jdbcTemplate.query(sql, resultSetExtractor));
     }
 
-    public List<Shelter> findAll() {
-        String sql = "SELECT * FROM shelter";
+    public List<Shelter> findAll(long staffId) {
+        String sql = """
+            SELECT sh.*
+            FROM staff_member_shelter smsh
+            JOIN shelter sh
+            USING (shelter_id)
+            WHERE staff_id = ?
+            """;
         RowMapper<Shelter> rowMapper = (rs, rn) ->
                 Shelter.builder()
                 .id(rs.getLong(1))
@@ -64,7 +71,7 @@ public class ShelterRepo {
                 .phone(rs.getString(4))
                 .email(rs.getString(5))
                 .build();
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, rowMapper, staffId);
     }
 
     public void update(long id, Shelter shelterUpdates) {
@@ -99,19 +106,20 @@ public class ShelterRepo {
 
     public List<StaffMember> findShelterStaffMembersById(long id) {
         String sql = """
-                    SELECT *
-                    FROM staff_member
-                    WHERE shelter_id = ?
+                SELECT sm.*
+                FROM staff_member_shelter smsh
+                JOIN staff_member sm
+                USING (staff_id)
+                WHERE shelter_id = ? and staff_role = 'CARETAKER'
                 """;
         RowMapper<StaffMember> rowMapper = (rs, rm) -> StaffMember.builder()
                 .id(rs.getLong(1))
-                .shelterId(rs.getLong(2))
-                .name(rs.getString(3))
-                .role(rs.getString(4))
-                .phone(rs.getString(5))
-                .email(rs.getString(6))
-                .passwordSalt(rs.getString(7))
-                .passwordHash(rs.getString(8))
+                .name(rs.getString(2))
+                .role(rs.getObject(3, Role.class))
+                .phone(rs.getString(4))
+                .email(rs.getString(5))
+                .passwordSalt(rs.getString(6))
+                .passwordHash(rs.getString(7))
                 .build();
         return jdbcTemplate.query(sql, rowMapper, id);
     }
