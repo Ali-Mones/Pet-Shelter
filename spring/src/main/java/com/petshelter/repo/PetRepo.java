@@ -18,12 +18,9 @@ import java.util.List;
 @Data
 @Repository
 public class PetRepo {
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PetRepo(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    private JdbcTemplate jdbcTemplate;
 
     public long save(Pet pet) {
         String sql = "INSERT INTO pet (shelter_id, pet_name, pet_species, pet_breed, pet_age, pet_gender, pet_health_status" +

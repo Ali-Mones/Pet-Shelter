@@ -2,13 +2,17 @@ package com.petshelter.service;
 
 import com.petshelter.controller.PetController;
 import com.petshelter.model.Pet;
+import com.petshelter.model.PetDocument;
 import com.petshelter.model.Request.FilterRequest;
+import com.petshelter.repo.PetDocumentRepo;
 import com.petshelter.repo.PetRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -17,6 +21,9 @@ public class PetService {
     Logger logger = LoggerFactory.getLogger(PetController.class);
     @Autowired
     private PetRepo petRepo;
+
+    @Autowired
+    private PetDocumentRepo petDocumentRepo;
 
     public long addPet(Pet pet){
         logger.info("In addPet method of Pet Service");
@@ -45,4 +52,15 @@ public class PetService {
         return petRepo.getFilterAbleData();
     }
 
+    public long saveDocument(PetDocument document){
+        return petDocumentRepo.saveDocument(document);
+    }
+
+    public List<Blob> getAllDocuments(long petId){
+        try {
+            return petDocumentRepo.getAllDocuments(petId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

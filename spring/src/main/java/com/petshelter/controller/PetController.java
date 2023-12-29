@@ -1,13 +1,16 @@
 package com.petshelter.controller;
 
 import com.petshelter.model.Pet;
+import com.petshelter.model.PetDocument;
 import com.petshelter.model.Request.FilterRequest;
 import com.petshelter.service.PetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Blob;
 import java.util.List;
 
 @RestController
@@ -53,5 +56,14 @@ public class PetController {
         return petService.getFilterAbleData();
     }
 
+    @PostMapping("/saveDocument")
+    public long saveDocument(@RequestBody PetDocument petDocument){
+        return petService.saveDocument(petDocument);
+    }
+
+    @PostMapping("/getAllDocuments")
+    public List<Blob> getAllDocuments(@RequestParam long petId){
+        return petService.getAllDocuments(petId);
+    }
 }
 
