@@ -1,6 +1,7 @@
 package com.petshelter.repo;
 
 import com.petshelter.model.Shelter;
+import com.petshelter.model.StaffMember;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -92,5 +93,24 @@ public class ShelterRepo {
     public void delete(long id) {
         String sql = "DELETE FROM shelter WHERE shelter_id = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    public List<StaffMember> findShelterStaffMembersById(long id) {
+        String sql = """
+                    SELECT *
+                    FROM staff_member
+                    WHERE shelter_id = ?
+                """;
+        RowMapper<StaffMember> rowMapper = (rs, rm) -> StaffMember.builder()
+                .id(rs.getLong(1))
+                .shelterId(rs.getLong(2))
+                .name(rs.getString(3))
+                .role(rs.getString(4))
+                .phone(rs.getString(5))
+                .email(rs.getString(6))
+                .passwordSalt(rs.getString(7))
+                .passwordHash(rs.getString(8))
+                .build();
+        return jdbcTemplate.query(sql, rowMapper, id);
     }
 }

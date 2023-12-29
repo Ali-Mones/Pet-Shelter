@@ -1,6 +1,7 @@
 package com.petshelter.service;
 
 import com.petshelter.model.Shelter;
+import com.petshelter.model.StaffMember;
 import com.petshelter.repo.ShelterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,10 @@ public class ShelterService {
         if (shelterRepo.notExists(id)) return false;
         shelterRepo.delete(id);
         return true;
+    }
+
+    public List<StaffMember> getStaffMembers(long id) {
+        if (shelterRepo.notExists(id)) return null;
+        return shelterRepo.findShelterStaffMembersById(id);
     }
 }

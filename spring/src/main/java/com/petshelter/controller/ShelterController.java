@@ -1,6 +1,7 @@
 package com.petshelter.controller;
 
 import com.petshelter.model.Shelter;
+import com.petshelter.model.StaffMember;
 import com.petshelter.service.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +42,10 @@ public class ShelterController {
     @DeleteMapping("/deleteShelter/{id}")
     public boolean deleteShelter(@PathVariable("id") long id) {
         return shelterService.deleteMapping(id);
+    }
+
+    @GetMapping("/getStaffMembers/{id}")
+    public List<StaffMember> getStaffMembers(@PathVariable("id") long id) {
+        return shelterService.getStaffMembers(id);
     }
 }
