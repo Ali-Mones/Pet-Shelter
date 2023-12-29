@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Gender, Pet, PetDocument } from '../pet';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Shelter } from 'src/app/manage-shelter/shelter/shelter';
+import { Gender } from '../models/Gender';
+import { Pet } from '../models/Pet';
+import { PetDocument } from '../models/PetDocument';
+import { Shelter } from '../models/Shelter';
 
 @Component({
   selector: 'app-edit-pet',
@@ -23,7 +25,7 @@ export class EditPetComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      petId: new FormControl<number>(this.pet.petId),
+      petId: new FormControl<number>(this.pet.id),
       shelterId: new FormControl<number>(this.pet.shelterId, { validators: [Validators.required] }),
       name: new FormControl<string>(this.pet.name, { validators: [Validators.required, Validators.maxLength(45)] }),
       species: new FormControl<string>(this.pet.species, { validators: [Validators.required, Validators.maxLength(45)] }),
@@ -44,16 +46,16 @@ export class EditPetComponent implements OnInit {
   }
 
   handleDelete() {
-    this.deletePet.emit(this.pet.petId);
+    this.deletePet.emit(this.pet.id);
   }
 
   handleAddDocument(e: any): void {
     console.log(e.target.files);
 
     for (let file of e.target.files) {
-      this.pet.documents.push({
-        documentId: this.pet.documents.length > 0 ? Math.max(...this.pet.documents.map(doc => doc.documentId)) + 1 : 0,
-        petId: this.pet.petId,
+      this.pet.documents!.push({
+        documentId: this.pet.documents!.length > 0 ? Math.max(...this.pet.documents!.map(doc => doc.documentId)) + 1 : 0,
+        petId: this.pet.id,
         name: file.name,
         file: file
       });
@@ -61,7 +63,7 @@ export class EditPetComponent implements OnInit {
   }
 
   handleDeleteDocument(documentId: number): void {
-    this.pet.documents = this.pet.documents.filter((document: PetDocument) => documentId != document.documentId);
+    this.pet.documents = this.pet.documents!.filter((document: PetDocument) => documentId != document.documentId);
   }
 
   handleOpenDocument(doc: PetDocument) {

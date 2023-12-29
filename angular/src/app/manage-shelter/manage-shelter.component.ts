@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Shelter } from './shelter/shelter';
-import { Staff } from './shelter/staff';
+import { Shelter } from '../models/Shelter';
+import { Staff } from '../models/Staff';
 
 @Component({
   selector: 'app-manage-shelter',
@@ -24,20 +23,20 @@ export class ManageShelterComponent implements OnInit {
       email: "shelter1@gmail.com",
       staff: [
         {
-          staffId: 1,
+          id: 1,
           shelterId: 1,
           name: "Staff 1",
           role: "Role 1",
           phone: "12345678901",
-          email: ""
+          email: "",
         },
         {
-          staffId: 2,
+          id: 2,
           shelterId: 1,
           name: "Staff 2",
           role: "Role 2",
           phone: "12345678901",
-          email: ""
+          email: "",
         }
       ]
     }
@@ -46,6 +45,14 @@ export class ManageShelterComponent implements OnInit {
   handleShelterChange(shelter: Shelter) {
     let index = this.shelters.findIndex(s => s.id == shelter.id);
     this.shelters[index] = shelter;
+
+    const shelterInfo = {
+      id: shelter.id,
+      name: shelter.name,
+      location: shelter.location,
+      phone: shelter.phone,
+      email: shelter.email
+    }
   }
 
   handleDeleteShelter(shelter: Shelter) {
@@ -55,8 +62,8 @@ export class ManageShelterComponent implements OnInit {
 
   handleFireStaff(staff: Staff) {
     let shelterIndex = this.shelters.findIndex(s => s.id == staff.shelterId);
-    let staffIndex = this.shelters[shelterIndex].staff.findIndex(s => s.staffId == staff.staffId);
-    this.shelters[shelterIndex].staff.splice(staffIndex, 1);
+    let staffIndex = this.shelters[shelterIndex].staff!.findIndex(s => s.id == staff.id);
+    this.shelters[shelterIndex].staff!.splice(staffIndex, 1);
   }
 
   addShelter() {

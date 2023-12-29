@@ -6,6 +6,7 @@ import { ManageShelterComponent } from './manage-shelter/manage-shelter.componen
 import { ManagePetsComponent } from './manage-pets/manage-pets.component';
 import { PetProfileComponent } from './pet-profile/pet-profile.component';
 import { ViewPetsComponent } from './view-pets/view-pets.component';
+import { PetDetailsComponent } from './pet-details/pet-details.component';
 
 const routes: Routes = [
   { path:'', redirectTo:'view-pets', pathMatch:'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path:'staff/manage-pets', component: ManagePetsComponent },
   { path: 'pet-profile', component: PetProfileComponent },
   { path: 'view-pets', component: ViewPetsComponent },
+  { path: 'pet-details', component: PetDetailsComponent },
 ];
 
 @NgModule({

@@ -1,0 +1,85 @@
+<h1 mat-dialog-title>
+    Filter
+</h1>
+
+<div mat-dialog-content>
+    <h2>Species</h2>
+    <mat-selection-list #speciesList>
+        <button (click)="handleSelectAllSpecies()" mat-raised-button color="accent" style="margin-right: 20px;">Select All</button>
+        <button (click)="handleDeselectAllSpecies()" mat-raised-button color="accent" style="margin-bottom: 10px;">Deselect All</button>
+        <mat-list-option selected="true" *ngFor="let species of data.species" color="accent" (selectedChange)="handleChangeSpecies($event, species)">
+            {{ species }}
+        </mat-list-option>
+    </mat-selection-list>
+
+    <br>
+
+    <h2>Breeds</h2>
+    <mat-selection-list #breedsList>
+        <button (click)="handleSelectAllBreeds()" mat-raised-button color="accent" style="margin-right: 20px;">Select All</button>
+        <button (click)="handleDeselectAllBreeds()" mat-raised-button color="accent" style="margin-bottom: 10px;">Deselect All</button>
+        <mat-list-option selected="true" *ngFor="let breed of data.breeds" color="accent" (selectedChange)="handleChangeBreeds($event, breed)">
+            {{ breed }}
+        </mat-list-option>
+    </mat-selection-list>
+
+    <br>
+
+    <h2>Min Age</h2>
+    <mat-form-field>
+        <mat-label>Select an option</mat-label>
+        <mat-select [(value)]="filter.minAge">
+          <mat-option *ngFor="let i of ageRange" [value]="i">{{ i }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <h2>Max Age</h2>
+    <mat-form-field>
+        <mat-label>Select an option</mat-label>
+        <mat-select [(value)]="filter.maxAge">
+          <mat-option *ngFor="let i of ageRange" [value]="i">{{ i }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <h2>Locations</h2>
+    <mat-selection-list #locationsList>
+        <button (click)="handleSelectAllLocations()" mat-raised-button color="accent" style="margin-right: 20px;">Select All</button>
+        <button (click)="handleDeselectAllLocations()" mat-raised-button color="accent" style="margin-bottom: 10px;">Deselect All</button>
+        <mat-list-option #selectAllLocations selected="true" *ngFor="let location of data.shelterLocations" color="accent" (selectedChange)="handleChangeShelterLocations($event, location)">
+            {{ location }}
+        </mat-list-option>
+    </mat-selection-list>
+
+    <br>
+
+    <h2>House Trained</h2>
+    <mat-radio-group (change)="handleChangeHouseTrained($event.value)">
+        <mat-radio-button style="padding-bottom: 5px; padding-left: 10px;" value="yes">Yes</mat-radio-button>
+        <br>
+        <mat-radio-button style="padding-bottom: 5px; padding-left: 10px;" value="no">No</mat-radio-button>
+        <br>
+        <mat-radio-button style="padding-bottom: 5px; padding-left: 10px;" value="either">Either</mat-radio-button>
+        <br>
+    </mat-radio-group>
+
+    <br>
+
+    <h2>Spayed / Neutered</h2>
+    <mat-radio-group (change)="handleChangeSpayedNeutered($event.value)">
+        <mat-radio-button style="padding-bottom: 5px; padding-left: 10px;" value="yes">Yes</mat-radio-button>
+        <br>
+        <mat-radio-button style="padding-bottom: 5px; padding-left: 10px;" value="no">No</mat-radio-button>
+        <br>
+        <mat-radio-button style="padding-bottom: 5px; padding-left: 10px;" value="either">Either</mat-radio-button>
+        <br>
+    </mat-radio-group>
+    
+    <br>
+    <br>
+
+    <button (click)="applyFilter()" mat-raised-button color="accent">Apply Filter</button>
+</div>

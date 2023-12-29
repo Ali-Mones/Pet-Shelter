@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Shelter } from './shelter';
-import { Staff } from './staff';
+import { Shelter } from '../models/Shelter';
+import { Staff } from '../models/Staff';
 
 @Component({
   selector: 'app-shelter',
@@ -25,7 +25,7 @@ export class ShelterComponent implements OnInit {
       location: new FormControl<string>(this.shelter.location, { validators: [Validators.required, Validators.maxLength(45)] }),
       phone: new FormControl<string>(this.shelter.phone, { validators: [Validators.required, Validators.pattern("^[0-9]{11}$")] }),
       email: new FormControl<string>(this.shelter.email, { validators: [Validators.required, Validators.email, Validators.maxLength(45)] }),
-      staff: new FormControl<Staff[]>(this.shelter.staff)
+      staff: new FormControl<Staff[]>(this.shelter.staff!)
     });
   }
 }

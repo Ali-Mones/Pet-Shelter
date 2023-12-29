@@ -18,7 +18,7 @@
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary">ADOPT</button>
-        <button mat-raised-button color="primary">DETAILS</button>
+        <button mat-raised-button (click)="handleAdopt()" color="primary">ADOPT</button>
+        <button mat-raised-button (click)="handleViewDetails(pet)" color="primary">DETAILS</button>
     </mat-card-actions>
 </mat-card>
