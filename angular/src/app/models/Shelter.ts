@@ -6,5 +6,6 @@ export type Shelter = {
     location: string,
     phone: string,
     email: string,
-    staff?: Staff[]
+    staff?: Staff[],
+    added?: boolean
 }
