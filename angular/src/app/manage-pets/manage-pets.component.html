@@ -2,7 +2,6 @@
     <h1>Manage Pets</h1>
 
     <mat-accordion>
-        <mat-paginator style="margin-right: 0px; margin-left: auto;" [length]="getPetCount()" (page)="handlePageEvent($event)" [pageSize]="pageSize"></mat-paginator>
         <mat-expansion-panel *ngFor="let pet of pets" mat-card-xl-image>
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -13,11 +12,10 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <app-edit-pet
-                (deletePet)="handleDeletePet($event)"
+                (deletePet)="handleDeletePet(pet.id)"
                 (petChange)="handlePetChange($event)"
                 (documentsChange)="handleDocumentsChange($event)"
                 [pet]="pet"
-                [shelters]="shelters"
             ></app-edit-pet>
         </mat-expansion-panel>
     </mat-accordion>

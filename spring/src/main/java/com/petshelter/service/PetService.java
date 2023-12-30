@@ -64,4 +64,8 @@ public class PetService {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Pet> findPetsByStaffId(long id) {
+        return petRepo.findByStaffId(id);
+    }
 }

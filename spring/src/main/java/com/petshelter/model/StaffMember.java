@@ -1,23 +1,16 @@
 package com.petshelter.model;
 
 import com.petshelter.model.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.stereotype.Component;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
 @Component
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StaffMember {
-    private long id;
-    private String name;
+public class StaffMember extends UserProfile {
     private Role role;
-    private String phone;
-    private String email;
-    private String passwordSalt;
-    private String passwordHash;
 }

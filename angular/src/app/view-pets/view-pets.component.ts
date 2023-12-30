@@ -4,6 +4,7 @@ import { FilterComponent } from '../filter/filter.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Pet } from '../models/Pet';
 import { Filter } from '../models/Filter';
+import { PetApiService } from '../services/pet-api.service';
 
 @Component({
   selector: 'app-view-pets',
@@ -77,8 +78,6 @@ export class ViewPetsComponent implements OnInit {
 
   pageSize: number = 2;
 
-  viewPets: Pet[] = this.pets.filter((pet, index) => index < this.pageSize);
-
   appliedFilter: Filter = {}
 
   filterableData: Filter = {
@@ -91,29 +90,37 @@ export class ViewPetsComponent implements OnInit {
 
   searchTimeout!: NodeJS.Timeout;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private api: PetApiService) {}
 
   ngOnInit(): void {
-    // send request to backend to get pet count
-    // send request to backend to get pets for page with pageIndex = 0, page size = page size 
+    this.api.filterPets(null, 0, this.pageSize).subscribe((pets) => {
+      this.pets = pets;
+      console.log("pets", this.pets);
+      this.pets = this.pets.filter((pet, index) => index < this.pageSize);
+    });
   }
 
   getPetCount() {
-    return 2;
+    return this.pets.length;
   }
 
   handlePageEvent(event: PageEvent) {
-    this.viewPets = this.pets.filter((pet, index) => index >= event.pageIndex * event.pageSize && index < (event.pageIndex + 1) * event.pageSize);
+    this.api.filterPets(this.appliedFilter, event.pageIndex, this.pageSize).subscribe((pets) => {
+      this.pets = pets;
+    });
   }
 
   handleViewFilter() {
-
-    // send request to backend to find filterable data
+    this.api.getFilterableData().subscribe((filterableData) => {
+      this.filterableData = filterableData;
+    });
 
     const dialogRef = this.dialog.open(FilterComponent, { data: this.filterableData });
     dialogRef.afterClosed().subscribe(result => {
       this.appliedFilter = result;
-      // send request to backend to filter
+      this.api.filterPets(this.appliedFilter, 0, this.pageSize).subscribe((pets) => {
+        this.pets = pets;
+      });
     });
   }
 

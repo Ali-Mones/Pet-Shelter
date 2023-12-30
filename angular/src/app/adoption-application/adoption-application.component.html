@@ -1,0 +1,47 @@
+<div style="display: flex; flex-direction: column;">
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div id="label">
+            <mat-label>Adopter Name:</mat-label>
+            <span>{{ application.adopter.name }}</span>
+        </div>
+
+        <div id="label">
+            <mat-label>Adopter Email:</mat-label>
+            <span>{{ application.adopter.email }}</span>
+        </div>
+
+        <div id="label">
+            <mat-label>Adopter Phone:</mat-label>
+            <span>{{ application.adopter.phone }}</span>
+        </div>
+
+        <div id="label">
+            <mat-label>Pet Name:</mat-label>
+            <span>{{ application.pet.name }}</span>
+        </div>
+
+        <div id="label">
+            <mat-label>Pet Species:</mat-label>
+            <span>{{ application.pet.species }}</span>
+        </div>
+
+        <div id="label">
+            <mat-label>Pet Breed:</mat-label>
+            <span>{{ application.pet.breed }}</span>
+        </div>
+
+        <div id="label">
+            <mat-label>Pet Age:</mat-label>
+            <span>{{ application.pet.age }}</span>
+        </div>
+
+        <div id="label">
+            <mat-label>Application Status:</mat-label>
+            <span>{{ application.applicationStatus }}</span>
+        </div>
+
+        <button mat-raised-button color="primary" (click)="approveApplication()">Approve Application</button>
+        <button mat-raised-button color="warn" (click)="rejectApplication()">Reject Application</button>
+    </div>
+</div>

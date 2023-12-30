@@ -45,7 +45,7 @@ public class ShelterService {
         return true;
     }
 
-    public boolean deleteMapping(long id) {
+    public boolean deleteShelter(long id) {
         if (shelterRepo.notExists(id)) return false;
         shelterRepo.delete(id);
         return true;

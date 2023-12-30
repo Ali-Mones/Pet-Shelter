@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Shelter } from '../models/Shelter';
 import { Pet } from '../models/Pet';
 import { PetDocument } from '../models/PetDocument';
-import { PageEvent } from '@angular/material/paginator';
+import { PetManagementApiService } from '../services/pet-management-api.service';
 
 @Component({
   selector: 'app-manage-pets',
@@ -10,6 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrls: ['./manage-pets.component.css']
 })
 export class ManagePetsComponent implements OnInit {
+
 
   shelters: Shelter[] = [
     {
@@ -91,14 +91,17 @@ export class ManagePetsComponent implements OnInit {
     }
   ]
 
+
   pageSize = 1;
 
-  constructor() { }
+  constructor(private api: PetManagementApiService) { }
 
   ngOnInit(): void {
     // get pets of my shelter
-    // get shelters under my management
-    this.pets = this.pets.filter((pet, index) => index < this.pageSize);
+    this.api.getPetsByStaffId(1).subscribe((pets) => {
+      this.pets = pets.map(pet => { return { ...pet, added: true } });
+      console.log(this.pets)
+    });
   }
 
   getPetCount() {
@@ -120,28 +123,42 @@ export class ManagePetsComponent implements OnInit {
       description: "",
       houseTraining: false,
       spayedNeutered: false,
-      documents: []
+      documents: [],
+      added: false
     });
   }
 
   handlePetChange(pet: Pet) {
-    console.log("change", pet);
-    let index = this.pets.findIndex(p => p.id == pet.id);
-    this.pets[index] = pet;
+    if (pet.added) {
+      this.api.updatePet(pet).subscribe((success) => {
+        this.api.getPetsByStaffId(1).subscribe((pets) => {
+          this.pets = pets;
+        });
+      });
+    } else {
+      this.api.addPet({ ...pet, shelterId: 11 }).subscribe((petId) => {
+        this.api.getPetsByStaffId(1).subscribe((pets) => {
+          this.pets = pets;
+        });
+      });
+    }
   }
 
   handleDeletePet(petId: number) {
-    let index = this.pets.findIndex(p => p.id == petId);
-    this.pets.splice(index, 1);
+    this.api.deletePet(petId).subscribe((success) => {
+      this.api.getPetsByStaffId(1).subscribe((pets) => {
+        this.pets = pets;
+      });
+    });
   }
 
   handleDocumentsChange(documents: PetDocument[]) {
-    console.log("change", documents);
-    let index = this.pets.findIndex(p => p.id == documents[0].petId);
-    this.pets[index].documents = documents;
-  }
+    if (!documents)
+      return;
 
-  handlePageEvent(event: PageEvent) {
-    this.pets = this.pets.filter((pet, index) => index >= event.pageIndex * event.pageSize && index < (event.pageIndex + 1) * event.pageSize);
+    console.log("doc change", documents);
+    let index = this.pets.findIndex(p => p.id == documents[0].petId);
+    if (index >= 0)
+      this.pets[index].documents = documents;
   }
 }

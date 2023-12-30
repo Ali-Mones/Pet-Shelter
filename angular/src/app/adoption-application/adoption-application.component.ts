@@ -15,4 +15,12 @@ export class AdoptionApplicationComponent implements OnInit {
 
   @Input() application!: AdoptionApplication
 
+  approveApplication() {
+    this.application.applicationStatus = "APPROVED";
+  }
+
+  rejectApplication() {
+    this.application.applicationStatus = "REJECTED";
+  }
+
 }

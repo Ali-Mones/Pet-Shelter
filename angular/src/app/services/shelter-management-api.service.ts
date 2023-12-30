@@ -22,22 +22,37 @@ export class ShelterManagementApiService {
   }
 
   getShelters(): Observable<Shelter[]> {
-    return this.http.get<Shelter[]>(this.url + 'getAllShelters/1', this.options);
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.get<Shelter[]>(this.url + 'getAllShelters/1', options);
   }
 
   addShelter(shelter: Shelter): Observable<number> {
-    return this.http.post<number>(this.url + 'addShelter', JSON.stringify(shelter), this.options);
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.post<number>(this.url + 'addShelter', JSON.stringify(shelter), options);
   }
 
   updateShelter(shelter: Shelter): Observable<boolean> {
-    return this.http.put<boolean>(this.url + `updateShelter/${shelter.id}`, JSON.stringify(shelter), this.options);
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.put<boolean>(this.url + `updateShelter/${shelter.id}`, JSON.stringify(shelter), options);
   }
 
   deleteShelter(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(this.url + `deleteShelter/${id}`, this.options);
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.delete<boolean>(this.url + `deleteShelter/${id}`, options);
   }
 
   getShelterStaff(id: number): Observable<Staff[]> {
-    return this.http.get<Staff[]>(this.url + `getStaffMembers/${id}`, this.options);
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.get<Staff[]>(this.url + `getStaffMembers/${id}`, options);
   }
 }
