@@ -53,8 +53,8 @@ public class PetService {
         return petRepo.getFilterAbleData();
     }
 
-    public long saveDocument(MultipartFile document){
-        return petDocumentRepo.saveDocument(document);
+    public long saveDocument(MultipartFile document,long petId,String type,String name){
+        return petDocumentRepo.saveDocument(document,petId,type,name);
     }
 
     public List<Blob> getAllDocuments(long petId){

@@ -44,20 +44,15 @@ export class PetManagementApiService {
 
   saveDocument(doc: PetDocument): Observable<number> {
 
-    console.log(doc);
     const formdata: FormData = new FormData();
 
-    formdata.set('id', doc.id.toString());
-    formdata.set('petId', doc.petId.toString());
-    formdata.set('name', doc.name);
-    formdata.set('type', doc.type);
-    formdata.append('files', doc.file);
-
-    console.log(formdata.get('id'));
-
+    formdata.append('petId', doc.petId.toString());
+    formdata.append('name', doc.name);
+    formdata.append('type', doc.type);
+    formdata.append('file', doc.file);
 
     return this.http.post<number>(this.url + 'saveDocument', formdata)
-    // return this.http.post<number>(this.url + 'saveDocument', formdata, this.options);
+  
   }
 
   getDocuments(petId: number): Observable<PetDocument[]> {

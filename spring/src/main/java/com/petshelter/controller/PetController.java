@@ -57,8 +57,9 @@ public class PetController {
     }
 
     @PostMapping("/saveDocument")
-    public long saveDocument(@RequestBody MultipartFile petDocument){
-        return petService.saveDocument(petDocument);
+    public long saveDocument(@RequestPart("file") MultipartFile petDocument,@RequestParam("petId") long petId
+            ,@RequestParam("type") String type,@RequestParam("name") String name){
+        return petService.saveDocument(petDocument,petId,type,name);
     }
 
     @PostMapping("/getAllDocuments")
