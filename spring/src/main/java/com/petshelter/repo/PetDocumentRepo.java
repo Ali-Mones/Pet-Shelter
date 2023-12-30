@@ -45,17 +45,23 @@ public class PetDocumentRepo {
         return keyHolder.getKey() != null ? keyHolder.getKey().longValue() : -1;
     }
 
-    public List<Blob> getAllDocuments(long petId) throws SQLException {
+    public List<PetDocument> getAllDocuments(long petId) throws SQLException {
         return getFileData(petId);
     }
 
-    private List<Blob> getFileData(Long petId) {
+    private List<PetDocument> getFileData(Long petId) {
 
-        String sql = "SELECT document FROM pet_document WHERE pet_id = " + petId;
+        String sql = "SELECT * FROM pet_document WHERE pet_id = " + petId;
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             try {
-                return rs.getBlob("document");
+                return PetDocument.builder()
+                        .id(rs.getLong("document_id"))
+                        .petId(rs.getLong("pet_id"))
+                        .name(rs.getString("document_name"))
+                        .type(rs.getString("document_type"))
+                        .file(rs.getBytes("document"))
+                        .build();
             } catch (SQLException e) {
                 throw new RuntimeException("Error reading file data", e);
             }

@@ -57,7 +57,7 @@ public class PetService {
         return petDocumentRepo.saveDocument(document,petId,type,name);
     }
 
-    public List<Blob> getAllDocuments(long petId){
+    public List<PetDocument> getAllDocuments(long petId){
         try {
             return petDocumentRepo.getAllDocuments(petId);
         } catch (SQLException e) {

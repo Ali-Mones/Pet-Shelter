@@ -81,7 +81,7 @@ export class EditPetComponent implements OnInit {
 
   handleOpenDocument(doc: PetDocument) {
     const anchor = document.createElement("a");
-    anchor.href = URL.createObjectURL(doc.file);
+    anchor.href = URL.createObjectURL(new Blob([doc.file]));
     anchor.download = doc.name;
     anchor.click();
   }

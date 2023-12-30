@@ -7,6 +7,7 @@ import com.petshelter.service.PetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,9 +63,11 @@ public class PetController {
         return petService.saveDocument(petDocument,petId,type,name);
     }
 
-    @PostMapping("/getAllDocuments")
-    public List<Blob> getAllDocuments(@RequestParam long petId){
-        return petService.getAllDocuments(petId);
+    @GetMapping("/getAllDocuments")
+    public ResponseEntity<List<PetDocument>> getAllDocuments(@RequestParam long petId){
+        List<PetDocument> blobs = petService.getAllDocuments(petId);
+        logger.info("size of Blobs = " + blobs.size());
+        return ResponseEntity.ok(blobs);
     }
 }
 

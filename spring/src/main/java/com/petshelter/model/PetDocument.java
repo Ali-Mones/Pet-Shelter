@@ -18,5 +18,5 @@ public class PetDocument {
     private long petId;
     private String name;
     private String type;
-    private Blob file;
+    private byte[] file;
 }

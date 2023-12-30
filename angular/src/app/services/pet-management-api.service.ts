@@ -45,11 +45,11 @@ export class PetManagementApiService {
   saveDocument(doc: PetDocument): Observable<number> {
 
     const formdata: FormData = new FormData();
-
+   
     formdata.append('petId', doc.petId.toString());
     formdata.append('name', doc.name);
     formdata.append('type', doc.type);
-    formdata.append('file', doc.file);
+    formdata.append('file', new Blob([doc.file]));
 
     return this.http.post<number>(this.url + 'saveDocument', formdata)
   

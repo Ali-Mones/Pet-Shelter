@@ -48,14 +48,14 @@ export class ManagePetsComponent implements OnInit {
           petId: 1,
           name: "Document 1.png",
           type: "image/jpeg",
-          file: new Blob()
+          file: new Uint8Array()
         },
         {
           id: 4,
           petId: 1,
           name: "Document 2.png",
           type: "image/jpeg",
-          file: new Blob()
+          file: new Uint8Array()
         }
       ]
     },
@@ -78,14 +78,14 @@ export class ManagePetsComponent implements OnInit {
           petId: 2,
           name: "Document 3",
           type: "image/jpeg",
-          file: new Blob()
+          file: new Uint8Array()
         },
         {
           id: 2,
           petId: 2,
           name: "Document 4",
           type: "image/jpeg",
-          file: new Blob()
+          file: new Uint8Array()
         }
       ]
     }
