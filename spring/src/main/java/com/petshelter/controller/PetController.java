@@ -3,8 +3,10 @@ package com.petshelter.controller;
 import com.petshelter.model.Pet;
 import com.petshelter.model.PetDocument;
 import com.petshelter.model.Request.FilterRequest;
+import com.petshelter.service.JwtService;
 import com.petshelter.service.PetService;
 import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class PetController {
     @Autowired
     private PetService petService;
 
+    @Autowired
+    private JwtService jwtService;
+
     @PostMapping("/addPet")
     public long addPet(@RequestBody Pet pet) {
         logger.info("In addPet method of Controller");
@@ -37,7 +42,8 @@ public class PetController {
     }
 
     @GetMapping("/getPets/{id}")
-    public List<Pet> getPetsWithId(@PathVariable long id) {
+    public List<Pet> getPetsWithId(HttpServletRequest request, @PathVariable long id) {
+        id = jwtService.extractId(jwtService.token(request));
         return petService.findPetsByStaffId(id);
     }
 

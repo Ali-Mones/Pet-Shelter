@@ -2,7 +2,9 @@ package com.petshelter.controller;
 
 import com.petshelter.model.Shelter;
 import com.petshelter.model.StaffMember;
+import com.petshelter.service.JwtService;
 import com.petshelter.service.ShelterService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,9 @@ import java.util.List;
 @RequestMapping("/shelter")
 public class ShelterController {
     private final ShelterService shelterService;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Autowired
     public ShelterController(ShelterService shelterService) {
@@ -47,5 +52,11 @@ public class ShelterController {
     @GetMapping("/getStaffMembers/{id}")
     public List<StaffMember> getStaffMembers(@PathVariable("id") long id) {
         return shelterService.getStaffMembers(id);
+    }
+
+    @GetMapping("/shelterId")
+    public Long getShelterId(HttpServletRequest request) {
+        Long id = jwtService.extractId(jwtService.token(request));
+        return shelterService.shelterId(id);
     }
 }

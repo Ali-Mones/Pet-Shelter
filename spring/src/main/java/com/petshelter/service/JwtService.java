@@ -47,6 +47,10 @@ public class JwtService {
         return httpServletRequest.getHeader("Authorization").substring(7);
     }
 
+    public Long extractId(String token) {
+        return (Long) extractClaim(token, claims -> claims.get("id"));
+    }
+
     private String buildToken(Map<String, Object> extraClaims, UserProfile userProfile, long expiration) {
         return Jwts
                 .builder()

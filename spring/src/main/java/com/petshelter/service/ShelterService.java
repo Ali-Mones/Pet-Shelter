@@ -56,5 +56,9 @@ public class ShelterService {
         return shelterRepo.findShelterStaffMembersById(id);
     }
 
+    public Long shelterId(Long id) {
+        return shelterRepo.shelterId(id);
+    }
+
     // TODO: ADD FIRE STAFF
 }

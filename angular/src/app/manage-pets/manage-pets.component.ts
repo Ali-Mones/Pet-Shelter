@@ -3,6 +3,7 @@ import { Pet } from '../models/Pet';
 import { PetDocument } from '../models/PetDocument';
 import { PetManagementApiService } from '../services/pet-management-api.service';
 import { Shelter } from '../models/Shelter';
+import { ShelterManagementApiService } from '../services/shelter-management-api.service';
 
 @Component({
   selector: 'app-manage-pets',
@@ -17,15 +18,16 @@ export class ManagePetsComponent implements OnInit {
   pets: Pet[] = []
 
 
-  pageSize = 1;
+  pageSize = 20;
 
-  constructor(private api: PetManagementApiService) { }
+  constructor(private api: PetManagementApiService, private shelterApi: ShelterManagementApiService) { }
 
   ngOnInit(): void {
-    // get pets of my shelter
-    this.api.getPetsByStaffId(1).subscribe((pets) => {
-      this.pets = pets.map(pet => { return { ...pet, added: true } });
-      console.log(this.pets)
+
+    this.shelterApi.shelterId().subscribe((shelterId) => { 
+      this.api.getPetsByStaffId(shelterId).subscribe((pets) => {
+        this.pets = pets.map(pet => { return { ...pet, added: true } });
+      });
     });
   }
 

@@ -55,4 +55,11 @@ export class ShelterManagementApiService {
     const options = { ...this.options, headers: headers };
     return this.http.get<Staff[]>(this.url + `getStaffMembers/${id}`, options);
   }
+
+  shelterId(): Observable<number> {
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { headers: headers };
+    return this.http.get<number>(this.url + 'shelterId', options);
+  }
 }

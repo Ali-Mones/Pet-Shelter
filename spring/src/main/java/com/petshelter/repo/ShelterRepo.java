@@ -132,4 +132,10 @@ public class ShelterRepo {
 
         jdbcTemplate.execute(sql);
     }
+
+    public Long shelterId(Long userId) {
+        String sql = "Select shelter_id from staff_member_shelter where staff_id = " + userId + ";";
+        Long id = jdbcTemplate.query(sql, rs -> rs.next() ? rs.getLong(1) : null);
+        return id != null ? id : -1;
+    }
 }

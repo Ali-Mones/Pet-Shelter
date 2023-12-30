@@ -2,6 +2,8 @@ package com.petshelter.controller;
 
 import com.petshelter.model.AdoptionApplication;
 import com.petshelter.service.ApplicationService;
+import com.petshelter.service.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +16,17 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @Autowired
+    private JwtService jwtService;
+
+    @Autowired
     public ApplicationController(ApplicationService applicationService) {
         this.applicationService = applicationService;
     }
 
     @PostMapping("/addApp")
-    public AdoptionApplication addApp(@RequestBody AdoptionApplication adoptionApplication) {
+    public AdoptionApplication addApp(HttpServletRequest request, @RequestBody AdoptionApplication adoptionApplication) {
+        int id = jwtService.extractId(jwtService.token(request));
+        adoptionApplication.setAdopterId(id);
         return applicationService.addApp(adoptionApplication);
     }
 
