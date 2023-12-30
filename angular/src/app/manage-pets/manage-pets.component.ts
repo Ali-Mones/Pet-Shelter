@@ -10,7 +10,87 @@ import { PetManagementApiService } from '../services/pet-management-api.service'
 })
 export class ManagePetsComponent implements OnInit {
 
-  pets: Pet[] = []
+
+  shelters: Shelter[] = [
+    {
+      id: 1,
+      name: "Shelter 1",
+      location: "Location 1",
+      phone: "12345678901",
+      email: "shelter1@gmail.com",
+    },
+    {
+      id: 2,
+      name: "Shelter 2",
+      location: "Location 2",
+      phone: "12345678901",
+      email: "",
+    }
+  ]
+
+  pets: Pet[] = [
+    {
+      id: 1,
+      shelterId: 1,
+      name: "Pet 1",
+      species: "Cat",
+      breed: "Siamese",
+      age: 1,
+      gender: "FEMALE",
+      healthStatus: "HEALTHY",
+      behaviour: "Friendly",
+      description: "Description 1",
+      houseTraining: true,
+      spayedNeutered: true,
+      documents: [
+        {
+          id: 3,
+          petId: 1,
+          name: "Document 1.png",
+          type: "image/jpeg",
+          file: new Uint8Array()
+        },
+        {
+          id: 4,
+          petId: 1,
+          name: "Document 2.png",
+          type: "image/jpeg",
+          file: new Uint8Array()
+        }
+      ]
+    },
+    {
+      id: 2,
+      shelterId: 1,
+      name: "Pet 2",
+      species: "Dog",
+      breed: "Poodle",
+      age: 1,
+      gender: "MALE",
+      healthStatus: "HEALTHY",
+      behaviour: "Friendly",
+      description: "Description 2",
+      houseTraining: false,
+      spayedNeutered: true,
+      documents: [
+        {
+          id: 1,
+          petId: 2,
+          name: "Document 3",
+          type: "image/jpeg",
+          file: new Uint8Array()
+        },
+        {
+          id: 2,
+          petId: 2,
+          name: "Document 4",
+          type: "image/jpeg",
+          file: new Uint8Array()
+        }
+      ]
+    }
+  ]
+
 
   pageSize = 1;
 

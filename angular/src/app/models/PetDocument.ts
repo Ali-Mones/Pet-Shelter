@@ -3,5 +3,5 @@ export type PetDocument = {
     petId: number,
     name: string,
     type: string,
-    file: Blob
+    file: Uint8Array
 }
