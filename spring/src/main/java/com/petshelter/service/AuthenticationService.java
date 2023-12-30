@@ -47,7 +47,7 @@ public class AuthenticationService {
         StaffMember staffMember = staffMemberRepo.findByEmail(signUpRequest.getEmail());
 
         if (signUpRequest.getUserType().equals("CARETAKER") && signUpRequest.getShelterId() == null ||
-                shelterRepo.findById(signUpRequest.getShelterId()) == null && signUpRequest.getUserType().equals("CARETAKER"))
+                signUpRequest.getUserType().equals("CARETAKER") && shelterRepo.findById(signUpRequest.getShelterId()) == null)
             return new SignUpResponse("Shelter doesn't exist!", false);
 
         if (adopter != null || staffMember != null)
