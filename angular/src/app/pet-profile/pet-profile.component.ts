@@ -31,7 +31,7 @@ export class PetProfileComponent implements OnInit {
   }
 
   handleAdopt() {
-    alert("Adopted!");
+    // call backend here
   }
 
   handleViewDetails(pet: Pet) {

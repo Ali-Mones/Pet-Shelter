@@ -148,13 +148,9 @@ DROP TABLE IF EXISTS `pet_shelter`.`ADOPTION_APPLICATION`;
 
 CREATE TABLE IF NOT EXISTS `pet_shelter`.`ADOPTION_APPLICATION`
 (
-    `application_id`     BIGINT                                   NOT NULL AUTO_INCREMENT,
     `pet_id`             BIGINT                                   NULL,
     `adopter_id`         BIGINT                                   NULL,
-    `adopter_phone`      VARCHAR(11)                              NULL,
-    `adopter_email`      VARCHAR(45)                              NULL,
     `application_status` ENUM ('PENDING', 'APPROVED', 'REJECTED') NULL,
-    PRIMARY KEY (`application_id`),
     INDEX `pet_id_idx` (`pet_id` ASC) VISIBLE,
     INDEX `adopter_id_idx` (`adopter_id` ASC) VISIBLE,
     FOREIGN KEY (`pet_id`)
