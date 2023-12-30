@@ -41,12 +41,29 @@ CREATE TABLE IF NOT EXISTS `pet_shelter`.`STAFF_MEMBER`
 (
     `staff_id`            BIGINT      NOT NULL AUTO_INCREMENT,
     `staff_name`          VARCHAR(45) NULL,
-    `staff_role`          ENUM ('MANAGER', 'CARETAKER') NULL,
     `staff_phone`         VARCHAR(11) NULL,
     `staff_email`         VARCHAR(45) NULL,
     `staff_password_salt` VARCHAR(45) NULL,
     `staff_password_hash` VARCHAR(45) NULL,
+    `staff_role`          ENUM ('MANAGER', 'CARETAKER') NULL,
     PRIMARY KEY (`staff_id`)
+)
+    ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `pet_shelter`.`ADOPTER`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pet_shelter`.`ADOPTER`;
+
+CREATE TABLE IF NOT EXISTS `pet_shelter`.`ADOPTER`
+(
+    `adopter_id`            BIGINT      NOT NULL AUTO_INCREMENT,
+    `adopter_name`          VARCHAR(45) NULL,
+    `adopter_phone`         VARCHAR(11) NULL,
+    `adopter_email`         VARCHAR(45) NULL,
+    `adopter_password_salt` VARCHAR(45) NULL,
+    `adopter_password_hash` VARCHAR(45) NULL,
+    PRIMARY KEY (`adopter_id`)
 )
     ENGINE = InnoDB;
 
@@ -67,22 +84,6 @@ CREATE TABLE IF NOT EXISTS `pet_shelter`.`STAFF_MEMBER_SHELTER`
         REFERENCES `pet_shelter`.`SHELTER` (`shelter_id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-)
-    ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `pet_shelter`.`ADOPTER`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `pet_shelter`.`ADOPTER`;
-
-CREATE TABLE IF NOT EXISTS `pet_shelter`.`ADOPTER`
-(
-    `adopter_id`            BIGINT      NOT NULL AUTO_INCREMENT,
-    `adopter_name`          VARCHAR(45) NULL,
-    `adopter_email`         VARCHAR(45) NULL,
-    `adopter_password_salt` VARCHAR(45) NULL,
-    `adopter_password_hash` VARCHAR(45) NULL,
-    PRIMARY KEY (`adopter_id`)
 )
     ENGINE = InnoDB;
 
@@ -129,6 +130,7 @@ CREATE TABLE IF NOT EXISTS `pet_shelter`.`PET_DOCUMENT`
 (
     `document_id`   BIGINT      NOT NULL,
     `pet_id`        BIGINT      NULL,
+    `document_name` VARCHAR(45) NULL,
     `document_type` VARCHAR(45) NULL,
     `document`      MEDIUMBLOB  NULL,
     PRIMARY KEY (`document_id`),
