@@ -4,6 +4,7 @@ import com.petshelter.model.Pet;
 import com.petshelter.model.PetDocument;
 import com.petshelter.model.Request.FilterRequest;
 import com.petshelter.service.PetService;
+import jakarta.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,20 +35,25 @@ public class PetController {
         return petService.getPet(petId);
     }
 
+    @GetMapping("/getPets/{id}")
+    public List<Pet> getPetsWithId(@PathVariable long id) {
+        return petService.findPetsByStaffId(id);
+    }
+
     @PutMapping("/updatePet")
     public void updatePet(@RequestBody Pet pet){
         logger.info("In UpdatePet method of pet Service");
         petService.updatePet(pet);
     }
 
-    @DeleteMapping("/deletePet")
-    public void deletePet(@RequestParam long petId) {
+    @DeleteMapping("/deletePet/{petId}")
+    public void deletePet(@PathVariable long petId) {
         logger.info("In deletePet method of Controller");
         petService.deletePet(petId);
     }
 
-    @GetMapping("/filterPets")
-    public List<Pet> filterPets (@RequestBody FilterRequest filterRequest, @RequestParam int pageSize, @RequestParam int pageIndex){
+    @PostMapping("/filterPets")
+    public List<Pet> filterPets (@RequestBody @Nullable FilterRequest filterRequest, @RequestParam int pageSize, @RequestParam int pageIndex){
         return petService.filterPets(filterRequest, pageSize, pageIndex);
     }
 

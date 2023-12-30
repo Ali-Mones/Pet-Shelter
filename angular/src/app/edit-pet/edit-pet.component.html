@@ -2,13 +2,6 @@
 
     <div [style]="{display:'flex',gap: '10px'}">
         <mat-form-field color="primary" appearance="fill">
-            <mat-label>Shelter</mat-label>
-            <mat-select formControlName="shelterId">
-                <mat-option *ngFor="let shelter of shelters" [value]="shelter.id">{{ shelter.name }}</mat-option>
-            </mat-select>
-        </mat-form-field>
-    
-        <mat-form-field color="primary" appearance="fill">
             <mat-label>Name</mat-label>
             <input matInput type="text" formControlName="name">
             <mat-error *ngIf="form.controls['name'].hasError('maxlength')">Name too long</mat-error>
@@ -64,14 +57,12 @@
     </div>
 
     <mat-selection-list>
-        <mat-list-option color="primary" formControlName="houseTraining">
+        <mat-list-option color="primary" [(selected)]="form.value.houseTraining">
             House Training
         </mat-list-option>
-        <mat-list-option color="primary" formControlName="spayedNeutered">
+        <mat-list-option color="primary" [(selected)]="form.value.spayedNeutered">
             {{ form.controls['gender'].value == "MALE" ? "Neutered" : "Spayed" }}
         </mat-list-option>
-        <!-- <mat-checkbox formControlName="houseTraining" color="primary">House Trained</mat-checkbox> -->
-        <!-- <mat-checkbox formControlName="spayedNeutered" color="primary">Spayed / Neutered</mat-checkbox> -->
     </mat-selection-list>
     
 
@@ -90,6 +81,6 @@
     <button type="button" mat-raised-button (click)="fileInput.click()">Add Document</button>
     <input hidden (change)="handleAddDocument($event);" (click)="fileInput.value = ''" #fileInput multiple type="file">
 
-    <button mat-raised-button color="primary" (click)="$event.stopPropagation()" type="submit" [disabled]="form.invalid">Save Edits</button>
+    <button mat-raised-button color="primary" (click)="$event.stopPropagation()" type="submit" [disabled]="form.invalid">{{ pet.added ? "Save Edits" : "Add Pet" }}</button>
     <button mat-raised-button (click)="this.deletePet.emit(this.form.value)" color="warn">Delete Pet Record</button>
 </form>

@@ -53,7 +53,7 @@ public class PetRepo {
                 "SET shelter_id = ?, pet_name = ?, pet_species = ?, pet_breed = ?, pet_age = ?, " +
                 "pet_gender = ?, pet_health_status = ?, pet_behaviour = ?, pet_description = ?, " +
                 "pet_house_training = ?, pet_spayed_neutered = ? " +
-                "WHERE id = ?";
+                "WHERE pet_id = ?";
 
         jdbcTemplate.update(sql,
                 updatedPet.getShelterId(),
@@ -71,38 +71,43 @@ public class PetRepo {
     }
 
     public void deletePetById(long petId) {
-        String sql = "DELETE FROM pet WHERE id = ?";
+        String sql = "DELETE FROM pet WHERE pet_id = ?";
         jdbcTemplate.update(sql, petId);
     }
 
-    public Pet findById(long petId){
+    public Pet findById(long petId) {
         String sql = "SELECT * FROM pet WHERE pet.pet_id = " + petId;
 
         List<Pet> pets = jdbcTemplate.query(sql, getPetRowMapper());
-        return !pets.isEmpty() ? pets.getFirst():null;
+        return !pets.isEmpty() ? pets.getFirst() : null;
     }
 
-    public List<Pet> filterPets(FilterRequest filterRequest, int pageSize, int pageIndex){
+    public List<Pet> filterPets(FilterRequest filterRequest, int pageSize, int pageIndex) {
         StringBuilder sql = new StringBuilder("SELECT pet_id,pet.shelter_id, pet_name, pet_species, pet_breed, pet_age, pet_gender, pet_health_status" +
                 ", pet_behaviour, pet_description, pet_house_training, pet_spayed_neutered FROM pet");
 
-        if(filterRequest.getShelterLocations() != null && !filterRequest.getShelterLocations().isEmpty()){
+        if (filterRequest == null) {
+            sql.append(" LIMIT ").append(pageSize).append(" OFFSET ").append(pageSize * pageIndex);
+            return jdbcTemplate.query(sql.toString(), getPetRowMapper());
+        }
+
+        if (filterRequest.getShelterLocations() != null && !filterRequest.getShelterLocations().isEmpty()) {
             sql.append(" INNER JOIN shelter ON pet.shelter_id = shelter.shelter_id");
         }
         sql.append(" WHERE ");
-        if(filterRequest.getShelterLocations() != null && !filterRequest.getShelterLocations().isEmpty()) {
+        if (filterRequest.getShelterLocations() != null && !filterRequest.getShelterLocations().isEmpty()) {
             sql.append("shelter.shelter_location IN (").append(arrayToInClause(filterRequest.getShelterLocations())).append(") ").append("AND ");
         }
-        if(filterRequest.getSpecies() != null && !filterRequest.getSpecies().isEmpty()){
+        if (filterRequest.getSpecies() != null && !filterRequest.getSpecies().isEmpty()) {
             sql.append("pet.pet_species IN (").append(arrayToInClause(filterRequest.getSpecies())).append(") ").append("AND ");
         }
-        if(filterRequest.getBreeds() != null && !filterRequest.getBreeds().isEmpty()){
+        if (filterRequest.getBreeds() != null && !filterRequest.getBreeds().isEmpty()) {
             sql.append("pet.pet_breed IN (").append(arrayToInClause(filterRequest.getBreeds())).append(") ").append("AND ");
         }
-        if(filterRequest.getHouseTraining() != null){
+        if (filterRequest.getHouseTraining() != null) {
             sql.append("pet.pet_house_training = ").append(filterRequest.getHouseTraining()).append(" AND ");
         }
-        if(filterRequest.getSpayedNeutered() != null){
+        if (filterRequest.getSpayedNeutered() != null) {
             sql.append("pet.pet_spayed_neutered = ").append(filterRequest.getSpayedNeutered()).append(" AND ");
         }
 
@@ -110,26 +115,33 @@ public class PetRepo {
 
         sql.append(" LIMIT ").append(pageSize).append(" OFFSET ").append(pageSize * pageIndex);
 
-        return jdbcTemplate.query(sql.toString(),getPetRowMapper());
+        return jdbcTemplate.query(sql.toString(), getPetRowMapper());
     }
 
-    public FilterRequest getFilterAbleData(){
-        List<String> species = jdbcTemplate.queryForList("SELECT DISTINCT pet_species FROM pet",String.class);
-        List<String> breeds = jdbcTemplate.queryForList("SELECT DISTINCT pet_breed FROM pet",String.class);
+    public FilterRequest getFilterAbleData() {
+        List<String> species = jdbcTemplate.queryForList("SELECT DISTINCT pet_species FROM pet", String.class);
+        List<String> breeds = jdbcTemplate.queryForList("SELECT DISTINCT pet_breed FROM pet", String.class);
         List<String> shelterLocations = jdbcTemplate.queryForList("SELECT DISTINCT shelter_location FROM pet INNER JOIN shelter ON pet.shelter_id " +
-                "= shelter.shelter_id;",String.class);
+                "= shelter.shelter_id;", String.class);
         int minAge = jdbcTemplate.queryForObject("SELECT min(pet_age) FROM pet", Integer.class);
         int maxAge = jdbcTemplate.queryForObject("SELECT max(pet_age) FROM pet", Integer.class);
 
         return FilterRequest.builder().species(species).breeds(breeds).shelterLocations(shelterLocations).minAge(minAge).maxAge(maxAge).build();
     }
 
+    public List<Pet> findByStaffId(long id) {
+        String sql = "Select pet_id, pet.shelter_id, adopter_id, pet_name, pet_species, pet_breed, pet_age, pet_gender," +
+                " pet_health_status, pet_behaviour, pet_description, pet_house_training, pet_spayed_neutered" +
+                " from pet, staff_member_shelter as sms where sms.shelter_id = pet.shelter_id" +
+                " and sms.staff_id = " + id + ";";
+        return jdbcTemplate.query(sql, getPetRowMapper());
+    }
 
     private String arrayToInClause(List<String> values) {
         return "'" + String.join("', '", values) + "'";
     }
 
-    private  RowMapper<Pet> getPetRowMapper(){
+    private RowMapper<Pet> getPetRowMapper() {
         return (rs, rowNum) -> Pet.builder()
                 .id(rs.getLong("pet_id"))
                 .shelterId(rs.getLong("shelter_id"))
@@ -137,7 +149,7 @@ public class PetRepo {
                 .species(rs.getString("pet_species"))
                 .breed(rs.getString("pet_breed"))
                 .age(rs.getInt("pet_age"))
-                .gender(Gender.valueOf(rs.getString(7)))
+                .gender(Gender.valueOf(rs.getString("pet_gender")))
                 .healthStatus(rs.getString("pet_health_status"))
                 .behaviour(rs.getString("pet_behaviour"))
                 .description(rs.getString("pet_description"))

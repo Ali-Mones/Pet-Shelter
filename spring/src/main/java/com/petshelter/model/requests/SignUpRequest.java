@@ -15,4 +15,5 @@ public class SignUpRequest {
     private String email;
     private String password;
     private String userType;
+    private Long shelterId;
 }

@@ -36,7 +36,7 @@ public class StaffMemberRepo implements UserProfileRepo {
     }
 
     @Override
-    public void save(SignUpRequest signUpRequest, String passwordSalt, String passwordHash) {
+    public Long save(SignUpRequest signUpRequest, String passwordSalt, String passwordHash) {
         String sql = "INSERT INTO staff_member (staff_name, staff_phone, staff_email, staff_password_salt, staff_password_hash, staff_role) VALUES (?, ?, ?, ?, ?, ?)";
         Object[] args = {
                 signUpRequest.getName(),
@@ -47,5 +47,8 @@ public class StaffMemberRepo implements UserProfileRepo {
                 signUpRequest.getUserType()
         };
         jdbcTemplate.update(sql, args);
+
+        Long id = jdbcTemplate.query("SELECT LAST_INSERT_ID()", rs -> rs.next() ? rs.getLong(1) : null);
+        return id != null ? id : -1;
     }
 }

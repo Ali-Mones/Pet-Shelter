@@ -6,6 +6,7 @@ import com.petshelter.model.requests.LoginRequest;
 import com.petshelter.model.requests.SignUpRequest;
 import com.petshelter.model.responses.SignUpResponse;
 import com.petshelter.repo.AdopterRepo;
+import com.petshelter.repo.ShelterRepo;
 import com.petshelter.repo.StaffMemberRepo;
 import com.petshelter.validator.PasswordSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +19,18 @@ import java.util.Map;
 public class AuthenticationService {
     private final AdopterRepo adopterRepo;
     private final StaffMemberRepo staffMemberRepo;
+    private final ShelterRepo shelterRepo;
     private final PasswordSecurity passwordSecurity;
     private final JwtService jwtService;
 
     @Autowired
     public AuthenticationService(AdopterRepo adopterRepo, StaffMemberRepo staffMemberRepo,
-                                 PasswordSecurity passwordSecurity, JwtService jwtService) {
+                                 PasswordSecurity passwordSecurity, JwtService jwtService, ShelterRepo shelterRepo) {
         this.adopterRepo = adopterRepo;
         this.staffMemberRepo = staffMemberRepo;
         this.passwordSecurity = passwordSecurity;
         this.jwtService = jwtService;
+        this.shelterRepo = shelterRepo;
     }
 
     private boolean attributesOutOfBounds(SignUpRequest signUpRequest) {
@@ -43,16 +46,26 @@ public class AuthenticationService {
         Adopter adopter = adopterRepo.findByEmail(signUpRequest.getEmail());
         StaffMember staffMember = staffMemberRepo.findByEmail(signUpRequest.getEmail());
 
+        if (signUpRequest.getUserType().equals("CARETAKER") && signUpRequest.getShelterId() == null ||
+                shelterRepo.findById(signUpRequest.getShelterId()) == null && signUpRequest.getUserType().equals("CARETAKER"))
+            return new SignUpResponse("Shelter doesn't exist!", false);
+
         if (adopter != null || staffMember != null)
             return new SignUpResponse("This email already registered", false);
 
         String passwordSalt = passwordSecurity.getNextSalt();
         String passwordHash = passwordSecurity.hashPassword(signUpRequest.getPassword(), passwordSalt);
 
+        Long id;
+
         if (userType.equals("ADOPTER"))
-            adopterRepo.save(signUpRequest, passwordSalt, passwordHash);
+            id = adopterRepo.save(signUpRequest, passwordSalt, passwordHash);
         else
-            staffMemberRepo.save(signUpRequest, passwordSalt, passwordHash);
+            id = staffMemberRepo.save(signUpRequest, passwordSalt, passwordHash);
+
+        if (signUpRequest.getUserType().equals("CARETAKER")) {
+            shelterRepo.assignCaretakerToShelter(id, signUpRequest.getShelterId());
+        }
 
         return new SignUpResponse("Account Created Successfully", true);
     }

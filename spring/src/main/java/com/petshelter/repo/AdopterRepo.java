@@ -34,7 +34,7 @@ public class AdopterRepo implements UserProfileRepo {
     }
 
     @Override
-    public void save(SignUpRequest signUpRequest, String passwordSalt, String passwordHash) {
+    public Long save(SignUpRequest signUpRequest, String passwordSalt, String passwordHash) {
         String sql = "INSERT INTO adopter (adopter_name, adopter_phone, adopter_email, adopter_password_salt, adopter_password_hash) VALUES (?, ?, ?, ?, ?)";
         Object[] args = {
                 signUpRequest.getName(),
@@ -44,5 +44,8 @@ public class AdopterRepo implements UserProfileRepo {
                 passwordHash
         };
         jdbcTemplate.update(sql, args);
+
+        Long id = jdbcTemplate.query("SELECT LAST_INSERT_ID()", rs -> rs.next() ? rs.getLong(1) : null);
+        return id != null ? id : -1;
     }
 }

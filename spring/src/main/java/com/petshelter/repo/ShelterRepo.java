@@ -123,4 +123,13 @@ public class ShelterRepo {
                 .build();
         return jdbcTemplate.query(sql, rowMapper, id);
     }
+
+    public void assignCaretakerToShelter(Long userId, Long shelterId) {
+        String sql = "INSERT INTO STAFF_MEMBER_SHELTER (staff_id, shelter_id) " +
+                "VALUES (" +
+                userId + ", " + shelterId +
+                ");";
+
+        jdbcTemplate.execute(sql);
+    }
 }

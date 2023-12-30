@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PetDocument } from '../models/PetDocument';
 import { Pet } from '../models/Pet';
-import { Filter } from '../models/Filter';
 
 @Injectable({
   providedIn: 'root'
@@ -23,26 +22,36 @@ export class PetManagementApiService {
   }
 
   addPet(pet: Pet): Observable<number> {
-    return this.http.post<number>(this.url + 'addPet', JSON.stringify(pet), this.options);
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.post<number>(this.url + 'addPet', JSON.stringify(pet), options);
   }
 
   updatePet(pet: Pet): Observable<void> {
-    return this.http.put<void>(this.url + `updatePet`, JSON.stringify(pet), this.options);
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.put<void>(this.url + `updatePet`, JSON.stringify(pet), options);
   }
 
   deletePet(id: number): Observable<void> {
-    return this.http.delete<void>(this.url + `deletePet?petId=${id}`, this.options);  
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.delete<void>(this.url + `deletePet/${id}`, options);  
   }
 
-  filterPets(filter: Filter): Observable<Pet[]> {
-    return this.http.post<Pet[]>(this.url + 'filterPets', JSON.stringify(filter), this.options);
-  }
-
-  getFilterableData(): Observable<Filter> {
-    return this.http.get<Filter>(this.url + 'getFilterAbleData', this.options);
+  getPetsByStaffId(id: number): Observable<Pet[]> {
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.get<Pet[]>(this.url + `getPets/${id}`, options);
   }
 
   saveDocument(doc: PetDocument): Observable<number> {
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
 
     console.log(doc);
     const formdata: FormData = new FormData();
@@ -61,6 +70,9 @@ export class PetManagementApiService {
   }
 
   getDocuments(petId: number): Observable<PetDocument[]> {
-    return this.http.get<PetDocument[]>(this.url + `getAllDocuments?petId=${petId}`, this.options);
+    const token = document.cookie.split("=")[1];
+    const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+    const options = { ...this.options, headers: headers };
+    return this.http.get<PetDocument[]>(this.url + `getAllDocuments?petId=${petId}`, options);
   }
 }

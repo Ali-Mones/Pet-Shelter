@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,10 @@ public class JwtService {
 
     public String generateToken(Map<String, Object> extraClaims, UserProfile userProfile) {
         return buildToken(extraClaims, userProfile, jwtExpiration);
+    }
+
+    public String token(HttpServletRequest httpServletRequest) {
+        return httpServletRequest.getHeader("Authorization").substring(7);
     }
 
     private String buildToken(Map<String, Object> extraClaims, UserProfile userProfile, long expiration) {

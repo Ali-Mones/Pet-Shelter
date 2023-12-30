@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface UserProfileRepo {
     UserProfile findByEmail(String email);
 
-    void save(SignUpRequest signUpRequest, String passwordSalt, String passwordHash);
+    Long save(SignUpRequest signUpRequest, String passwordSalt, String passwordHash);
 }

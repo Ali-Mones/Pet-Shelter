@@ -5,11 +5,16 @@
 
     <mat-form-field>
         <mat-label>Select What Describes You Best</mat-label>
-        <mat-select>
-            <mat-option value="adpoter">Adopter</mat-option>
-            <mat-option value="staff">Shelter Staff Member</mat-option>
-            <mat-option value="manager">Shelter Manager</mat-option>
+        <mat-select (valueChange)="handleChange($event)">
+            <mat-option value="ADOPTER">Adopter</mat-option>
+            <mat-option value="CARETAKER">Shelter Staff Member</mat-option>
+            <mat-option value="MANAGER">Shelter Manager</mat-option>
         </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="registerForm.value.type == 'CARETAKER'" color="primary" appearance="fill">
+        <mat-label>Shelter Id</mat-label>
+        <input matInput type="number" formControlName="shelterId">
     </mat-form-field>
 
     <mat-form-field color="primary" appearance="fill">

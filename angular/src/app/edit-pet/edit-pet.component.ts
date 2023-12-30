@@ -26,7 +26,7 @@ export class EditPetComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      petId: new FormControl<number>(this.pet.id),
+      id: new FormControl<number>(this.pet.id),
       shelterId: new FormControl<number>(this.pet.shelterId, { validators: [Validators.required] }),
       name: new FormControl<string>(this.pet.name, { validators: [Validators.required, Validators.maxLength(45)] }),
       species: new FormControl<string>(this.pet.species, { validators: [Validators.required, Validators.maxLength(45)] }),
@@ -43,6 +43,7 @@ export class EditPetComponent implements OnInit {
   }
 
   handleEdits() {
+    console.log(this.form.value);
     this.petChange.emit(this.form.value);
     this.documentsChange.emit(this.pet.documents);
   }
