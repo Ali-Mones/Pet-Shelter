@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Random;
+
 @SpringBootTest
 class PetShelterApplicationTests {
 
@@ -99,12 +101,15 @@ class PetShelterApplicationTests {
 	@Test
 	public void insertIntoVaccination() {
 		long startTime = System.currentTimeMillis();
+
+		Random random = new Random();
 		for (int i = 0; i < 10000; i++) {
 			Vaccination vaccination = Vaccination.builder()
 					.petId(i + 1)
-					.vaccination("Vaccination " + i)
+					.vaccination("Vaccination " + random.nextInt(1000000))
 					.build();
-			vaccinationRepo.save(vaccination);
+			if (vaccinationRepo.findById(vaccination.getPetId(), vaccination.getVaccination()) == null)
+				vaccinationRepo.save(vaccination);
 		}
 		long endTime = System.currentTimeMillis();
 		System.out.println("Insert into vaccination took " + (endTime - startTime) + " milliseconds");
