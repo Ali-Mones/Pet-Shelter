@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Shelter } from '../models/Shelter';
 import { Staff } from '../models/Staff';
-import { ShelterManagementApiService } from '../shelter-management-api.service';
+import { ShelterManagementApiService } from '../services/shelter-management-api.service';
 
 @Component({
   selector: 'app-manage-shelter',
@@ -10,18 +10,21 @@ import { ShelterManagementApiService } from '../shelter-management-api.service';
 })
 export class ManageShelterComponent implements OnInit {
 
-  constructor(private api: ShelterManagementApiService) { }
-
-  ngOnInit(): void {
-  }
-
   shelters: Shelter[] = []
 
+  constructor(private api: ShelterManagementApiService) { }
+
+  ngOnInit() {
+    this.api.getShelters().subscribe((shelters) => {
+      this.shelters = shelters.map(shelter => { return { ...shelter, added: true }});
+    });
+  }
+
   handleShelterChange(shelter: Shelter) {
+    console.log(shelter);
     if (shelter.added) {
       let index = this.shelters.findIndex(s => s.id == shelter.id);
       this.shelters[index] = shelter;
-
 
       const shelterInfo = {
         id: shelter.id,
@@ -30,22 +33,38 @@ export class ManageShelterComponent implements OnInit {
         phone: shelter.phone,
         email: shelter.email
       }
+
+      this.api.updateShelter(shelterInfo).subscribe((success) => {
+        if (!success) {
+          alert("Failed to update shelter");
+          return;
+        }
+      });
     } else {
-      // send request to backend
       this.api.addShelter(shelter).subscribe(shelterId => {
         if (shelterId == -1) {
           alert("Failed to add shelter");
           return;
         } else {
-          document.location.reload();
+          this.api.getShelters().subscribe((shelters) => {
+            this.shelters = shelters.map(shelter => { return { ...shelter, added: true }});
+          })
         }
       });
     }
   }
 
   handleDeleteShelter(shelter: Shelter) {
-    let index = this.shelters.findIndex(s => s.id == shelter.id);
-    this.shelters.splice(index, 1);
+    this.api.deleteShelter(shelter.id).subscribe((success) => {
+      if (!success) {
+        alert("Failed to delete shelter");
+        return;
+      }
+
+      this.api.getShelters().subscribe((shelters) => {
+        this.shelters = shelters.map(shelter => { return { ...shelter, added: true }});
+      });
+    });
   }
 
   handleFireStaff(staff: Staff) {

@@ -24,6 +24,6 @@ public class Pet {
     private String healthStatus;
     private String behaviour;
     private String description;
-    private boolean houseTraining;
-    private boolean spayedNeutered;
+    private Boolean houseTraining;
+    private Boolean spayedNeutered;
 }
