@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(value = "http://localhost:4200", allowCredentials = "true", allowedHeaders = "*")
-@RequestMapping("/Shelter")
+@RequestMapping("/shelter")
 public class ShelterController {
     private final ShelterService shelterService;
 
@@ -41,7 +41,7 @@ public class ShelterController {
 
     @DeleteMapping("/deleteShelter/{id}")
     public boolean deleteShelter(@PathVariable("id") long id) {
-        return shelterService.deleteMapping(id);
+        return shelterService.deleteShelter(id);
     }
 
     @GetMapping("/getStaffMembers/{id}")

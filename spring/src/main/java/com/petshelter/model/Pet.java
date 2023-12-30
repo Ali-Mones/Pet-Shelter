@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class Pet {
     private long id;
     private long shelterId;
+    private long adopterId;
     private String name;
     private String species;
     private String breed;

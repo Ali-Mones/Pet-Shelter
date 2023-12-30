@@ -39,12 +39,12 @@ DROP TABLE IF EXISTS `pet_shelter`.`STAFF_MEMBER`;
 
 CREATE TABLE IF NOT EXISTS `pet_shelter`.`STAFF_MEMBER`
 (
-    `staff_id`            BIGINT      NOT NULL AUTO_INCREMENT,
-    `staff_name`          VARCHAR(45) NULL,
-    `staff_phone`         VARCHAR(11) NULL,
-    `staff_email`         VARCHAR(45) NULL,
-    `staff_password_salt` VARCHAR(45) NULL,
-    `staff_password_hash` VARCHAR(45) NULL,
+    `staff_id`            BIGINT                        NOT NULL AUTO_INCREMENT,
+    `staff_name`          VARCHAR(45)                   NULL,
+    `staff_phone`         VARCHAR(11)                   NULL,
+    `staff_email`         VARCHAR(45)                   NULL,
+    `staff_password_salt` VARCHAR(2000)                 NULL,
+    `staff_password_hash` VARCHAR(2000)                 NULL,
     `staff_role`          ENUM ('MANAGER', 'CARETAKER') NULL,
     PRIMARY KEY (`staff_id`)
 )
@@ -57,12 +57,12 @@ DROP TABLE IF EXISTS `pet_shelter`.`ADOPTER`;
 
 CREATE TABLE IF NOT EXISTS `pet_shelter`.`ADOPTER`
 (
-    `adopter_id`            BIGINT      NOT NULL AUTO_INCREMENT,
-    `adopter_name`          VARCHAR(45) NULL,
-    `adopter_phone`         VARCHAR(11) NULL,
-    `adopter_email`         VARCHAR(45) NULL,
-    `adopter_password_salt` VARCHAR(45) NULL,
-    `adopter_password_hash` VARCHAR(45) NULL,
+    `adopter_id`            BIGINT        NOT NULL AUTO_INCREMENT,
+    `adopter_name`          VARCHAR(45)   NULL,
+    `adopter_phone`         VARCHAR(11)   NULL,
+    `adopter_email`         VARCHAR(45)   NULL,
+    `adopter_password_salt` VARCHAR(2000) NULL,
+    `adopter_password_hash` VARCHAR(2000) NULL,
     PRIMARY KEY (`adopter_id`)
 )
     ENGINE = InnoDB;

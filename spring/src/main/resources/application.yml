@@ -7,3 +7,22 @@ spring:
     username: pet
     password: petshelter1234
     url: jdbc:mysql://localhost:3306/pet_shelter
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 74531816330-u182n5sr41qprpmc3sr52bsshn4hb8re.apps.googleusercontent.com
+            client-secret: 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
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day

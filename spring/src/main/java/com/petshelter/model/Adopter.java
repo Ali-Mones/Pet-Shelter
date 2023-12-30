@@ -1,20 +1,8 @@
 package com.petshelter.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Data
-@Builder
-@Component
-@NoArgsConstructor
-@AllArgsConstructor
-public class Adopter {
-    private long id;
-    private String name;
-    private String email;
-    private String passwordSalt;
-    private String passwordHash;
-}
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
+public class Adopter extends UserProfile {}
