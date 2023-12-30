@@ -16,6 +16,7 @@ import java.sql.Blob;
 public class PetDocument {
     private long id;
     private long petId;
+    private String documentName;
     private String documentType;
     private Blob document;
 }

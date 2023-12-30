@@ -115,7 +115,7 @@ public class ShelterRepo {
         RowMapper<StaffMember> rowMapper = (rs, rm) -> StaffMember.builder()
                 .id(rs.getLong(1))
                 .name(rs.getString(2))
-                .role(rs.getObject(3, Role.class))
+                .role(Role.valueOf(rs.getString(3)))
                 .phone(rs.getString(4))
                 .email(rs.getString(5))
                 .passwordSalt(rs.getString(6))
