@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
   handleLogin() {
     this.api.login(this.loginForm.value).subscribe((response) => {
       if (response.accept) {
+        document.cookie = `token=${response.token}; path=/;`
         document.location.href = "/";
-        document.cookie = `token=${response.token}`
       } else {
         alert("Login failed");
       }
