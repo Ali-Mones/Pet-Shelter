@@ -19,7 +19,7 @@ public class ApplicationController {
     }
 
     @PostMapping("/addApp")
-    public long addApp(@RequestBody AdoptionApplication adoptionApplication) {
+    public AdoptionApplication addApp(@RequestBody AdoptionApplication adoptionApplication) {
         return applicationService.addApp(adoptionApplication);
     }
 

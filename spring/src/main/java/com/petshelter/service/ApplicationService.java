@@ -16,12 +16,8 @@ public class ApplicationService {
         this.applicationRepo = applicationRepo;
     }
 
-    private boolean attributesOutOfBounds(AdoptionApplication adoptionApplication) {
-        return adoptionApplication.getAdopterPhone().length() > 11 || adoptionApplication.getAdopterEmail().length() > 45;
-    }
 
-    public long addApp(AdoptionApplication adoptionApplication) {
-        if (attributesOutOfBounds(adoptionApplication)) return -1;
+    public AdoptionApplication addApp(AdoptionApplication adoptionApplication) {
         return applicationRepo.save(adoptionApplication);
     }
 
@@ -41,7 +37,7 @@ public class ApplicationService {
     }
 
     public boolean updateApp(long id, AdoptionApplication adoptionApplicationUpdates) {
-        if (applicationRepo.notExists(id) || attributesOutOfBounds(adoptionApplicationUpdates)) return false;
+        if (applicationRepo.notExists(id)) return false;
         applicationRepo.update(id, adoptionApplicationUpdates);
         return true;
     }

@@ -142,11 +142,11 @@ CREATE TABLE IF NOT EXISTS `pet_shelter`.`PET_DOCUMENT`
     ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `pet_shelter`.`ADOPTION_APPLICATION`
+-- Table pet_shelter.ADOPTION_APPLICATION
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `pet_shelter`.`ADOPTION_APPLICATION`;
+DROP TABLE IF EXISTS pet_shelter.ADOPTION_APPLICATION;
 
-CREATE TABLE IF NOT EXISTS `pet_shelter`.`ADOPTION_APPLICATION`
+CREATE TABLE IF NOT EXISTS pet_shelter.ADOPTION_APPLICATION
 (
     `pet_id`             BIGINT                                   NULL,
     `adopter_id`         BIGINT                                   NULL,
@@ -157,8 +157,8 @@ CREATE TABLE IF NOT EXISTS `pet_shelter`.`ADOPTION_APPLICATION`
         REFERENCES `pet_shelter`.`PET` (`pet_id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (`adopter_id`)
-        REFERENCES `pet_shelter`.`ADOPTER` (`adopter_id`)
+    FOREIGN KEY (adopter_id)
+        REFERENCES pet_shelter.ADOPTER (adopter_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 )

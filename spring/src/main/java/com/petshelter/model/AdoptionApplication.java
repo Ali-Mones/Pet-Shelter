@@ -13,10 +13,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdoptionApplication {
-    private long id;
     private long petId;
     private long adopterId;
-    private String adopterPhone;
-    private String adopterEmail;
     private ApplicationStatus applicationStatus;
 }

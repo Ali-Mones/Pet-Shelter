@@ -23,25 +23,26 @@ public class PetRepo {
     private JdbcTemplate jdbcTemplate;
 
     public long save(Pet pet) {
-        String sql = "INSERT INTO pet (shelter_id, pet_name, pet_species, pet_breed, pet_age, pet_gender, pet_health_status" +
+        String sql = "INSERT INTO pet (shelter_id, adopter_id, pet_name, pet_species, pet_breed, pet_age, pet_gender, pet_health_status" +
                 ", pet_behaviour, pet_description, pet_house_training, pet_spayed_neutered) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, pet.getShelterId());
-            ps.setString(2, pet.getName());
-            ps.setString(3, pet.getSpecies());
-            ps.setString(4, pet.getBreed());
-            ps.setInt(5, pet.getAge());
-            ps.setString(6, pet.getGender().name());
-            ps.setString(7, pet.getHealthStatus());
-            ps.setString(8, pet.getBehaviour());
-            ps.setString(9, pet.getDescription());
-            ps.setBoolean(10, pet.getHouseTraining());
-            ps.setBoolean(11, pet.getSpayedNeutered());
+            ps.setLong(2, pet.getAdopterId());
+            ps.setString(3, pet.getName());
+            ps.setString(4, pet.getSpecies());
+            ps.setString(5, pet.getBreed());
+            ps.setInt(6, pet.getAge());
+            ps.setString(7, pet.getGender().name());
+            ps.setString(8, pet.getHealthStatus());
+            ps.setString(9, pet.getBehaviour());
+            ps.setString(10, pet.getDescription());
+            ps.setBoolean(11, pet.getHouseTraining());
+            ps.setBoolean(12, pet.getSpayedNeutered());
             return ps;
         }, keyHolder);
 
