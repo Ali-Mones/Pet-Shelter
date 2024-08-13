@@ -9,7 +9,7 @@ import { PetDetailsComponent } from './pet-details/pet-details.component';
 import { ManageApplicationsComponent } from './manage-applications/manage-applications.component';
 
 const routes: Routes = [
-  { path:'', redirectTo:'staff/manage-pets', pathMatch:'full' },
+  { path:'', redirectTo:'staff/view-pets', pathMatch:'full' },
   { path:'auth/login', component: LoginComponent },
   { path:'auth/register', component: RegisterComponent },
   { path:'manager/manage-shelters', component: ManageShelterComponent },
